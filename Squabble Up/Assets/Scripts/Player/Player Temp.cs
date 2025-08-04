@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerTemp : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PlayerTemp : MonoBehaviour
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
-    
+
     Vector3 velocity;
     public bool isGrounded;
     public bool disableGravity = false;

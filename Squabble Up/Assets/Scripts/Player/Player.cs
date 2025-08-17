@@ -7,10 +7,13 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float slideForce = 10f;
-    public float rotationSpeed = 90f;
-    public float groundDrag = 3f;
-    public float airDrag = 0.2f;
+    public float speed = 12f;                
+    public float gravity = -9.81f;           
+    public float jumpHeight = 3f; 
+
+    [Header("Ground Check")]
+    public Transform groundCheck;            
+    public float groundDistance = 0.4f;         
     public LayerMask groundLayer;
 
     [Header("Camera Settings")]
@@ -22,15 +25,17 @@ public class Player : MonoBehaviour
 
     public Rigidbody rb;
     private Vector2 currentInput;           // Current input from keyboard/gamepad
-    private bool isGrounded;
-
-    private InputAction moveAction;         // Input action for movement
-    private InputAction lookAction;         // Input action for looking around
-
-    private float camRotationX;             // Vertical camera rotation
     private Vector2 currentLook;            // Current input from mouse/gamepad
     private Vector2 smoothLook;             // Smoothed look direction
     private Vector2 lookVelocity;           // Velocity used by SmoothDamp
+    private Vector3 velocity;               // Jump velocity
+    private bool isGrounded;
+    private float camRotationX;             // Vertical camera rotation
+
+    private InputAction moveAction;         // Input action for movement
+    private InputAction lookAction;         // Input action for looking around
+    private InputAction jumpAction;         // Input action for jumping
+
 
     void Awake()
     {
@@ -41,6 +46,7 @@ public class Player : MonoBehaviour
         var playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
         lookAction = playerInput.actions["Look"];
+        jumpAction = playerInput.actions["Jump"];
     }
 
     void OnEnable()     // Subscribe to input actions when the script is enabled
@@ -52,6 +58,9 @@ public class Player : MonoBehaviour
         lookAction.Enable();
         lookAction.performed += OnLook;
         lookAction.canceled += OnLook;
+
+        jumpAction.Enable();
+        jumpAction.performed += OnJump;
     }
 
     void OnDisable()   // Unsubscribe from input actions when the script is disabled
@@ -61,6 +70,8 @@ public class Player : MonoBehaviour
 
         lookAction.performed -= OnLook;
         lookAction.canceled -= OnLook;
+
+        jumpAction.performed -= OnJump;
     }
 
     // Called whenever Move input changes
@@ -75,11 +86,25 @@ public class Player : MonoBehaviour
         currentLook = context.ReadValue<Vector2>();
     }
 
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed && isGrounded)
+        {
+            // Jump velocity based on physics equation
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+    }
+
     void Update()
     {
         // Groundcheck lol
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.05f, groundLayer);
-        rb.linearDamping = isGrounded ? groundDrag : airDrag;
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
+        
+        // Reset vertical velocity if grounded and falling
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f; // small downward force keeps player grounded
+        }
 
         HandleCameraLook(); //Calling this in Update for smoother camera movement
     }
@@ -91,17 +116,15 @@ public class Player : MonoBehaviour
 
     void HandleMovement()
     {
-        if (currentInput.magnitude > 0.1f)
-        {
-            Vector3 force = new Vector3(currentInput.x, 0, currentInput.y) * slideForce;
-            rb.AddForce(force, ForceMode.Acceleration);
+       // real-time movement cause the orignal one was fucking out and made me tweak a bit....
+        Vector3 move = (transform.right * currentInput.x + transform.forward * currentInput.y).normalized * speed;
 
-            if (force.magnitude > 0.1f)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(force.normalized);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            }
-        }
+        // movement along x with the rb, if this fucks up I'm gonna tweak cause it was working before
+        rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
+
+        // Apply gravity & jump (velocity.y is modified in Update or OnJump)
+        velocity.y += gravity * Time.fixedDeltaTime;
+        rb.AddForce(Vector3.up * velocity.y, ForceMode.Acceleration);
     }
     
     void HandleCameraLook()

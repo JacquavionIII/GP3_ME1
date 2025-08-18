@@ -3,7 +3,7 @@ using UnityEngine;
 public class Zone : MonoBehaviour
 {
     [Header("Measure")]
-    public int zoneCaptureCount;
+    public int zoneCaptureCount = 0;
     public int playerCount;
 
     [Header("Conditions")]
@@ -12,7 +12,7 @@ public class Zone : MonoBehaviour
     public bool isCaptured;
     public bool isPlayerInZone;
     public bool zoneContested;
-    public bool gameWon;
+    public bool gameWon = false;
 
     [Header("References")]
     public GameObject player;
@@ -22,27 +22,27 @@ public class Zone : MonoBehaviour
     {
         if (gameWon) return; // If the game is won, skip further processing
 
-        if (playerCount >= 2)
+        if (playerCount >= 2) //two players in the zone makes it contested
         {
             zoneContested = true;
         }
-        else
+        else // If there are less than two players, the zone is not contested
         {
             zoneContested = false;
         }
 
-        if (zoneContested)
+        if (zoneContested) // If the zone is contested, reset the capture state
         {
             isCaptured = false;
             enemyCapture = false;
         }
-        else if (isPlayerInZone)
+        else if (isPlayerInZone) // If a player is in the zone and it's not contested
         {
-            if (isEnemyInZone)
+            if (isEnemyInZone) // If an enemy is also in the zone
             {
                 enemyCapture = true;
             }
-            else
+            else // If no enemy is in the zone, the player captures it
             {
                 enemyCapture = false;
                 isCaptured = true;
@@ -57,7 +57,7 @@ public class Zone : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player")) //The moment the players collider makes contact with the zone
         {

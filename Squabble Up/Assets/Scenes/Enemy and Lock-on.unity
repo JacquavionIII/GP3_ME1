@@ -127,6 +127,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1841956453936149968, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.2400002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841956453936149968, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841956453936149968, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 17.042
+      objectReference: {fileID: 0}
     - target: {fileID: 1993698863561446902, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.754028
@@ -137,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1993698863561446902, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.7
+      value: -4.88
       objectReference: {fileID: 0}
     - target: {fileID: 1993698863561446902, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_LocalRotation.w
@@ -171,11 +183,28 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7654789385773204278, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: field of view
+      value: 60.000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654789385773204278, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_FocalLength
+      value: 20.78461
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654789385773204278, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_projectionMatrixMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+--- !u!1 &229194690 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3889167601880968720, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+  m_PrefabInstance: {fileID: 229194689}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &935366458
 Mesh:
   m_ObjectHideFlags: 0
@@ -477,7 +506,7 @@ GameObject:
   - component: {fileID: 1509685628}
   - component: {fileID: 1509685627}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -825,6 +854,7 @@ GameObject:
   - component: {fileID: 1595324505}
   - component: {fileID: 1595324504}
   - component: {fileID: 1595324503}
+  - component: {fileID: 1595324506}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -900,12 +930,56 @@ Transform:
   m_GameObject: {fileID: 1595324502}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 9.6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1595324506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595324502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &1812983358
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,6 +992,7 @@ GameObject:
   - component: {fileID: 1812983361}
   - component: {fileID: 1812983360}
   - component: {fileID: 1812983359}
+  - component: {fileID: 1812983363}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -1010,12 +1085,49 @@ Transform:
   m_GameObject: {fileID: 1812983358}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.419077, y: 2.5, z: 6.57}
+  m_LocalPosition: {x: -0.3, y: 2.5, z: 11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1812983363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812983358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Graph: {fileID: -7517401897875589834, guid: 4e5bfbf28b398a94ab00df11d83782c0, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 6233300181368176918
+  - rid: 6233300181368176919
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 6233300181368176918
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 1812983358}
+    - rid: 6233300181368176919
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1584226413224475227
+          m_Value1: 14823931719536687837
+        Name: Target
+        m_Value: {fileID: 229194690}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

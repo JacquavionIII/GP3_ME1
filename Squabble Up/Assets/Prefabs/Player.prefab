@@ -298,17 +298,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 12
   gravity: -9.81
-  jumpHeight: 3
+  jumpHeight: 15
   groundCheck: {fileID: 5262133422717480452}
   groundDistance: 0.4
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   cameraTransform: {fileID: 1841956453936149968}
-  lookSensitivity: 5
+  lookSensitivity: 6
   smoothTime: 0.05
-  minLookY: -40
-  maxLookY: 40
+  minLookY: -15
+  maxLookY: 15
   rb: {fileID: 2605275390867180732}
 --- !u!1 &5695552479615341046
 GameObject:
@@ -368,8 +368,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7316625638877665555}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18111701, y: -0, z: -0, w: 0.98346156}
-  m_LocalPosition: {x: -0.46000004, y: 2.23, z: -7.15}
+  m_LocalRotation: {x: 0.14816776, y: -0, z: -0, w: 0.98896223}
+  m_LocalPosition: {x: -0.46000004, y: 3.1, z: -6.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -408,7 +408,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60.000004
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1

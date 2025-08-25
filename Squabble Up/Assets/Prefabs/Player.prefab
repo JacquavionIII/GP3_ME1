@@ -305,7 +305,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   cameraTransform: {fileID: 1841956453936149968}
-  lookSensitivity: 6
+  lookSensitivity: 3
   smoothTime: 0.05
   minLookY: -10
   maxLookY: 10

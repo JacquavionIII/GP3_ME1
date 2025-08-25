@@ -307,9 +307,10 @@ MonoBehaviour:
   cameraTransform: {fileID: 1841956453936149968}
   lookSensitivity: 6
   smoothTime: 0.05
-  minLookY: -15
-  maxLookY: 15
+  minLookY: -10
+  maxLookY: 10
   rb: {fileID: 2605275390867180732}
+  anim: {fileID: 0}
 --- !u!1 &5695552479615341046
 GameObject:
   m_ObjectHideFlags: 0

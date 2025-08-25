@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     public float maxLookY = 60f;            // Clamping the vertical look (down)
 
     public Rigidbody rb;
+    public Animator anim;
     private Vector2 currentInput;           // Current input from keyboard/gamepad
     private Vector2 currentLook;            // Current input from mouse/gamepad
     private Vector2 smoothLook;             // Smoothed look direction
@@ -116,7 +117,7 @@ public class Player : MonoBehaviour
 
     void HandleMovement()
     {
-       // real-time movement cause the orignal one was fucking out and made me tweak a bit....
+        // real-time movement cause the orignal one was fucking out and made me tweak a bit....
         Vector3 move = (transform.right * currentInput.x + transform.forward * currentInput.y).normalized * speed;
 
         // movement along x with the rb, if this fucks up I'm gonna tweak cause it was working before
@@ -125,6 +126,10 @@ public class Player : MonoBehaviour
         // Apply gravity & jump (velocity.y is modified in Update or OnJump)
         velocity.y += gravity * Time.fixedDeltaTime;
         rb.AddForce(Vector3.up * velocity.y, ForceMode.Acceleration);
+
+        // Update animations
+        bool isRunning = currentInput.magnitude > 0.1f;
+        anim.SetBool("isRunning", isRunning);
     }
     
     void HandleCameraLook()

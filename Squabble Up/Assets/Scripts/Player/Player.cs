@@ -16,6 +16,10 @@ public class Player : MonoBehaviour
     public float groundDistance = 0.4f;         
     public LayerMask groundLayer;
 
+    [Header("Enemy Settings")]
+    public Enemy enemy;                       // Reference to the enemy script
+    public Transform lightAttackVFX;          // Reference to the light attack VFX transform
+
     [Header("Camera Settings")]
     public Transform cameraTransform;
     public float lookSensitivity = 3f;      // Controling the look sensitivity
@@ -33,9 +37,11 @@ public class Player : MonoBehaviour
     private bool isGrounded;
     private float camRotationX;             // Vertical camera rotation
 
+    [Header("Input Actions")]
     private InputAction moveAction;         // Input action for movement
     private InputAction lookAction;         // Input action for looking around
     private InputAction jumpAction;         // Input action for jumping
+    private InputAction lightAttackAction; // Input action for light attack
 
 
     void Awake()
@@ -48,6 +54,7 @@ public class Player : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         lookAction = playerInput.actions["Look"];
         jumpAction = playerInput.actions["Jump"];
+        lightAttackAction = playerInput.actions["LightAttack"];
     }
 
     void OnEnable()     // Subscribe to input actions when the script is enabled
@@ -62,6 +69,9 @@ public class Player : MonoBehaviour
 
         jumpAction.Enable();
         jumpAction.performed += OnJump;
+
+        lightAttackAction.Enable();
+        lightAttackAction.performed += OnLightAttack;
     }
 
     void OnDisable()   // Unsubscribe from input actions when the script is disabled
@@ -73,6 +83,8 @@ public class Player : MonoBehaviour
         lookAction.canceled -= OnLook;
 
         jumpAction.performed -= OnJump;
+
+        lightAttackAction.performed -= OnLightAttack;
     }
 
     // Called whenever Move input changes
@@ -93,6 +105,41 @@ public class Player : MonoBehaviour
         {
             // Jump velocity based on physics equation
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+    }
+
+    public void OnLightAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            // Trigger light attack animation
+            //anim.SetTrigger("lightAttack");
+
+            // Show light attack VFX
+            if (lightAttackVFX != null)
+            {
+                lightAttackVFX.gameObject.SetActive(true);
+                Invoke(nameof(DisableLightAttackVFX), 0.5f); // Adjust delay as needed
+            }
+
+            // Check if enemy is in range and apply damage
+            if (enemy != null)
+            {
+                float distanceToEnemy = Vector3.Distance(lightAttackVFX.position, enemy.transform.position);
+
+                if (distanceToEnemy <= 2f) // Assuming 2 units is the attack range
+                {
+                    enemy.TakeDamage(10); // Doing damage to enemy
+                }
+            }
+        }
+    }
+
+    private void DisableLightAttackVFX()
+    {
+        if (lightAttackVFX != null)
+        {
+            lightAttackVFX.gameObject.SetActive(false);
         }
     }
 

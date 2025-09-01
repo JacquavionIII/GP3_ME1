@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
     [Header("Enemy Settings")]
     public NavMeshAgent agent;
     public Transform player;
+    public Transform attackVFX;
     public LayerMask whatIsGround, whatIsPlayer;
     public int Health;
 
@@ -93,11 +94,24 @@ public class Enemy : MonoBehaviour
         {
             ///Attack logic here
             Debug.Log("Enemy Attacked");
+            if (attackVFX != null)
+            {
+                attackVFX.gameObject.SetActive(true);
+                Invoke(nameof(DisableAttackVFX), 0.5f); 
+            }
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
+
+    private void DisableAttackVFX()
+{
+    if (attackVFX != null)
+    {
+        attackVFX.gameObject.SetActive(false);
+    }
+}
 
     private void ResetAttack()
     {

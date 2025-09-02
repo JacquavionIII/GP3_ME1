@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         lookAction = playerInput.actions["Look"];
         jumpAction = playerInput.actions["Jump"];
-        lightAttackAction = playerInput.actions["LightAttack"];
+    // lightAttackAction = playerInput.actions["LightAttack"];
     }
 
     void OnEnable()     // Subscribe to input actions when the script is enabled
@@ -70,8 +70,8 @@ public class Player : MonoBehaviour
         jumpAction.Enable();
         jumpAction.performed += OnJump;
 
-        lightAttackAction.Enable();
-        lightAttackAction.performed += OnLightAttack;
+        // lightAttackAction.Enable();
+        // lightAttackAction.performed += OnLightAttack;
     }
 
     void OnDisable()   // Unsubscribe from input actions when the script is disabled
@@ -84,7 +84,8 @@ public class Player : MonoBehaviour
 
         jumpAction.performed -= OnJump;
 
-        lightAttackAction.performed -= OnLightAttack;
+        // lightAttackAction.performed -= OnLightAttack;
+        // lightAttackAction.canceled -= OnLightAttack;
     }
 
     // Called whenever Move input changes

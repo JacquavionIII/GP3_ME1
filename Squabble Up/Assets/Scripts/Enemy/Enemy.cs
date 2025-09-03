@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -23,9 +25,28 @@ public class Enemy : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    public List<Transform> players = new List<Transform>();
+
     public void Awake()
     {
-        player = GameObject.Find("Player").transform;
+        // Hopefully the enemy will go and search for both "Player" and "Player2" tags
+        players.Clear();
+        foreach (var go in GameObject.FindGameObjectsWithTag("Player1"))
+        {
+            players.Add(go.transform);
+        }
+
+        foreach (var go in GameObject.FindGameObjectsWithTag("Player2"))
+        {
+            players.Add(go.transform);
+        }
+
+        // And here the lil bastard can choose to pick the closest player as its target
+        if (players.Count > 0)
+        {
+            player = players[0]; // there is a more techy way to do this but Im gonna tweak if i read more fucking code
+        } //ths is the bullshit i get for doing capture the flag in multiplayer... bloddy hell
+
         agent = GetComponent<NavMeshAgent>();
     }
 

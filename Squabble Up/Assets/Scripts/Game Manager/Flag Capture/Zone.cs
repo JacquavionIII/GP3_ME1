@@ -59,7 +59,12 @@ public class Zone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player")) //The moment the players collider makes contact with the zone
+        if (other.gameObject.CompareTag("Player1")) //The moment the players collider makes contact with the zone
+        {
+            isPlayerInZone = true;
+            playerCount++; //to keep track of how many playyers are in the zone
+        }
+        else if (other.gameObject.CompareTag("Player2")) //The moment the players collider makes contact with the zone
         {
             isPlayerInZone = true;
             playerCount++; //to keep track of how many playyers are in the zone

@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
     public float minLookY = -60f;           // Clamping the vertical look (up) 
     public float maxLookY = 60f;            // Clamping the vertical look (down)
 
+    [Header("Components")] //idk im gettng tired of writing these headers
+    private static int playerCount = 0; //this is this track how many players have spawned 
+
     public Rigidbody rb;
     public Animator anim;
     private Vector2 currentInput;           // Current input from keyboard/gamepad
@@ -41,13 +44,24 @@ public class Player : MonoBehaviour
     private InputAction moveAction;         // Input action for movement
     private InputAction lookAction;         // Input action for looking around
     private InputAction jumpAction;         // Input action for jumping
-    private InputAction lightAttackAction; // Input action for light attack
+    private InputAction lightAttackAction;  // Input action for light attack
 
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        //To assign player tags and shit, im starting to get fucking annyed with this bs in the fucking background
+        if (playerCount % 2 == 0)
+        {
+            gameObject.tag = "Player1";
+        }
+        else
+        {
+            gameObject.tag = "Player2";
+        }
+        playerCount++;
 
         //Get the player's input actions
         var playerInput = GetComponent<PlayerInput>();

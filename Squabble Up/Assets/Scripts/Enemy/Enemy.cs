@@ -139,6 +139,15 @@ public class Enemy : MonoBehaviour
         alreadyAttacked = false;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("PlayerAttack"))
+        {
+            Debug.Log("Player hit by enemy");
+            TakeDamage(10); // Enemy takes damage when colliding with player
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         Health -= damage;

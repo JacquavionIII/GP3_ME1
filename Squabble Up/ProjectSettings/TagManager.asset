@@ -8,6 +8,10 @@ TagManager:
   - Enemy
   - Player1
   - Player2
+  - PlayerAttack
+  - DeathFloor
+  - Ground
+  - Spawn Points
   layers:
   - Default
   - TransparentFX

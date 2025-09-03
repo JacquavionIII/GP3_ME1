@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -7,13 +8,13 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float speed = 12f;                
-    public float gravity = -9.81f;           
-    public float jumpHeight = 3f; 
+    public float speed = 12f;
+    public float gravity = -9.81f;
+    public float jumpHeight = 3f;
 
     [Header("Ground Check")]
-    public Transform groundCheck;            
-    public float groundDistance = 0.4f;         
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
     public LayerMask groundLayer;
 
     [Header("Enemy Settings")]
@@ -27,9 +28,13 @@ public class Player : MonoBehaviour
     public float minLookY = -60f;           // Clamping the vertical look (up) 
     public float maxLookY = 60f;            // Clamping the vertical look (down)
 
-    [Header("Components")] //idk im gettng tired of writing these headers
+    [Header("Player Stuff")] //Fuck off, idk im gettng tired of writing these headers
+    public int health;
     private static int playerCount = 0; //this is this track how many players have spawned 
+    public bool death;
+    public int deathCount = 0;
 
+    [Header("Components")] //cause i genuinely dont know what to call this part and its annoying that its not fucking organised
     public Rigidbody rb;
     public Animator anim;
     private Vector2 currentInput;           // Current input from keyboard/gamepad
@@ -39,12 +44,13 @@ public class Player : MonoBehaviour
     private Vector3 velocity;               // Jump velocity
     private bool isGrounded;
     private float camRotationX;             // Vertical camera rotation
+    public Transform spawnPoint;            //Spawn Point
 
     [Header("Input Actions")]
     private InputAction moveAction;         // Input action for movement
     private InputAction lookAction;         // Input action for looking around
     private InputAction jumpAction;         // Input action for jumping
-    private InputAction lightAttackAction;  // Input action for light attack
+    private InputAction attackAction;  // Input action for attack
 
 
     void Awake()
@@ -68,7 +74,7 @@ public class Player : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         lookAction = playerInput.actions["Look"];
         jumpAction = playerInput.actions["Jump"];
-    // lightAttackAction = playerInput.actions["LightAttack"];
+        attackAction = playerInput.actions["Attack"];
     }
 
     void OnEnable()     // Subscribe to input actions when the script is enabled
@@ -84,8 +90,8 @@ public class Player : MonoBehaviour
         jumpAction.Enable();
         jumpAction.performed += OnJump;
 
-        // lightAttackAction.Enable();
-        // lightAttackAction.performed += OnLightAttack;
+        attackAction.Enable();
+        attackAction.performed += OnAttack;
     }
 
     void OnDisable()   // Unsubscribe from input actions when the script is disabled
@@ -98,8 +104,7 @@ public class Player : MonoBehaviour
 
         jumpAction.performed -= OnJump;
 
-        // lightAttackAction.performed -= OnLightAttack;
-        // lightAttackAction.canceled -= OnLightAttack;
+        attackAction.performed -= OnAttack;
     }
 
     // Called whenever Move input changes
@@ -123,7 +128,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void OnLightAttack(InputAction.CallbackContext context)
+    public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
@@ -162,7 +167,7 @@ public class Player : MonoBehaviour
     {
         // Groundcheck lol
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
-        
+
         // Reset vertical velocity if grounded and falling
         if (isGrounded && velocity.y < 0)
         {
@@ -170,6 +175,21 @@ public class Player : MonoBehaviour
         }
 
         HandleCameraLook(); //Calling this in Update for smoother camera movement
+
+        //Gonna call death here for now cause I genuinely dont give a flying fuck rn
+        if (health <= 0)
+        {
+            Death();
+        }
+
+        if (deathCount <= 4) //if you havent died at least 4 times, then you revive
+        {
+            Respawn(spawnPoint.position);
+        }
+        else if (deathCount >= 4) //if you die 4 times then game over.
+        {
+            //load death scene, rn we gonna quit apllicationor whatever
+        }
     }
 
     void FixedUpdate()
@@ -193,7 +213,7 @@ public class Player : MonoBehaviour
         bool isRunning = currentInput.magnitude > 0.1f;
         anim.SetBool("isRunning", isRunning);
     }
-    
+
     void HandleCameraLook()
     {
         // Smooth input with Lerp (or SmoothDamp for extra smoothness)
@@ -207,5 +227,44 @@ public class Player : MonoBehaviour
         camRotationX = Mathf.Clamp(camRotationX, minLookY, maxLookY);
 
         cameraTransform.localRotation = Quaternion.Euler(camRotationX, 0f, 0f);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0) Invoke(nameof(Death), 0.5f);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Player hit by enemy");
+            TakeDamage(10); // Player takes damage when colliding with enemy
+        }
+
+        if (collision.gameObject.CompareTag("DeathFloor"))
+        {
+            Debug.Log("Player fell off the map and died like a bitch");
+            Death(); // Player dies instantly when hitting the death floor
+        }
+    }
+
+    public void Respawn(Vector3 spawnPoint)
+    {
+        death = false;
+        gameObject.SetActive(true);
+        transform.position = spawnPoint;
+        health = 100; // Reset health or any other necessary stats
+        Debug.Log("Player Respawned");
+    }
+
+    public void Death()
+    {
+        gameObject.SetActive(false);
+        death = true;
+        deathCount++;
+        Debug.Log("Player Died");
     }
 }

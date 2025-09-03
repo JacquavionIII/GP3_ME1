@@ -164,5 +164,5 @@ MonoBehaviour:
   isPlayerInZone: 0
   zoneContested: 0
   gameWon: 0
-  player: {fileID: 3889167601880968720, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
-  enemy: {fileID: 0}
+  player: {fileID: 5353387631313361846, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+  enemy: {fileID: 1606799846668788433, guid: 2c1dc79fbb3cd134ea12bc4cac846cef, type: 3}

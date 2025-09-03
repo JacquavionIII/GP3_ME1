@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Zone : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Zone : MonoBehaviour
     public bool isPlayerInZone;
     public bool zoneContested;
     public bool gameWon = false;
+    private bool hasScored = false;
 
     [Header("References")]
     public GameObject player;
@@ -46,31 +48,29 @@ public class Zone : MonoBehaviour
             {
                 enemyCapture = false;
                 isCaptured = true;
-                zoneCaptureCount++;
+                if (!hasScored) //this is to make sure this fucking score only goes up once
+                {
+                    ZoneScore.instance.AddZoneScore();
+                    hasScored = true;
+                } //Imma fucken tweak if this bitch doesnt doesn't score once...
             }
-        }
-
-        if (zoneCaptureCount >= 4)
-        {
-            gameWon = true;
-            //then I'll add the game won logic here, I'll probably call a GameManager method
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider collision)
     {
-        if (other.gameObject.CompareTag("Player1")) //The moment the players collider makes contact with the zone
+        if (collision.gameObject.CompareTag("Player1")) //The moment the players collider makes contact with the zone
         {
             isPlayerInZone = true;
             playerCount++; //to keep track of how many playyers are in the zone
         }
-        else if (other.gameObject.CompareTag("Player2")) //The moment the players collider makes contact with the zone
+        else if (collision.gameObject.CompareTag("Player2")) //The moment the players collider makes contact with the zone
         {
             isPlayerInZone = true;
             playerCount++; //to keep track of how many playyers are in the zone
         }
 
-        if (other.gameObject.CompareTag("Enemy")) //The moment the enemies collider makes contact with the zone
+        if (collision.gameObject.CompareTag("Enemy")) //The moment the enemies collider makes contact with the zone
         {
             isEnemyInZone = true;
         }

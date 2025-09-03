@@ -314,19 +314,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1946161877179758294, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 46
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 2256473432908316941, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_Name
-      value: Death Menu
+      value: Win Menu
       objectReference: {fileID: 0}
     - target: {fileID: 3276538793568348034, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_Name
-      value: Death Text (TMP)
+      value: Win Text (TMP)
       objectReference: {fileID: 0}
     - target: {fileID: 3796175862712375998, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_Name
-      value: Death Menu Canvas
+      value: Win Menu Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 4771187947540609953, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_Name
@@ -340,7 +340,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_text
-      value: You Died
+      value: You Win
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
+      propertyPath: m_fontSize
+      value: 44.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
+      propertyPath: m_margin.z
+      value: 43.502228
       objectReference: {fileID: 0}
     - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_fontColor.b
@@ -348,15 +356,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_fontColor.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_fontColor.r
+      value: 0.012519836
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
+      propertyPath: m_enableAutoSizing
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4278190335
+      value: 4278255363
       objectReference: {fileID: 0}
     - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_HorizontalAlignment

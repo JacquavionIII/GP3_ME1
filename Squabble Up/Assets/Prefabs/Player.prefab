@@ -6665,12 +6665,12 @@ MonoBehaviour:
   smoothTime: 0.05
   minLookY: -10
   maxLookY: 10
-  health: 0
+  health: 100
   death: 0
   deathCount: 0
   rb: {fileID: 6250027764735096754}
   anim: {fileID: 2380173876463306523}
-  spawnPoint: {fileID: 0}
+  spawnPoint: {fileID: 6214950351767755552, guid: 8903c7beff397874bb78c67b4cebaa81, type: 3}
 --- !u!1 &5534287053676456059
 GameObject:
   m_ObjectHideFlags: 0

@@ -182,14 +182,14 @@ public class Player : MonoBehaviour
             Death();
         }
 
-        if (deathCount <= 4) //if you havent died at least 4 times, then you revive
-        {
-            Respawn(spawnPoint.position);
-        }
-        else if (deathCount >= 4) //if you die 4 times then game over.
-        {
-            //load death scene, rn we gonna quit apllicationor whatever
-        }
+        // if (deathCount <= 4) //if you havent died at least 4 times, then you revive
+        // {
+        //     Respawn(spawnPoint.position);
+        // }
+        // else if (deathCount >= 4) //if you die 4 times then game over.
+        // {
+        //     //load death scene, rn we gonna quit apllicationor whatever
+        // }
     }
 
     void FixedUpdate()
@@ -251,14 +251,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Respawn(Vector3 spawnPoint)
-    {
-        death = false;
-        gameObject.SetActive(true);
-        transform.position = spawnPoint;
-        health = 100; // Reset health or any other necessary stats
-        Debug.Log("Player Respawned");
-    }
+    // public void Respawn(Vector3 spawnPoint) //fuck you respawn
+    // {
+    //     death = false;
+    //     gameObject.SetActive(true);
+    //     transform.position = spawnPoint;
+    //     health = 100; // Reset health or any other necessary stats
+    //     Debug.Log("Player Respawned");
+    // }
 
     public void Death()
     {
@@ -266,5 +266,6 @@ public class Player : MonoBehaviour
         death = true;
         deathCount++;
         Debug.Log("Player Died");
+        SceneManager.LoadScene("Death Scene");
     }
 }

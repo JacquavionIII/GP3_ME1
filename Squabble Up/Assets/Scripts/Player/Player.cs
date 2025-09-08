@@ -23,7 +23,8 @@ public class Player : MonoBehaviour
 
     [Header("Camera Settings")]
     public Transform cameraTransform;
-    public float lookSensitivity = 3f;      // Controling the look sensitivity
+    [SerializeField] private float mouseSensitivity = 0.1f;
+    [SerializeField] private float controllerSensitivity = 200f;
     public float smoothTime = 0.05f;        // How quickly the camera lerps
     public float minLookY = -60f;           // Clamping the vertical look (up) 
     public float maxLookY = 60f;            // Clamping the vertical look (down)
@@ -216,14 +217,22 @@ public class Player : MonoBehaviour
 
     void HandleCameraLook()
     {
+        // Detect if the player is using mouse input
+        bool usingMouse = Mouse.current != null && Mouse.current.delta.ReadValue() != Vector2.zero;
+
+        // Scale look input depending on input device
+        Vector2 scaledLook = usingMouse
+        ? currentLook * mouseSensitivity
+        : currentLook * controllerSensitivity * Time.deltaTime;
+
         // Smooth input with Lerp (or SmoothDamp for extra smoothness)
         smoothLook = Vector2.SmoothDamp(smoothLook, currentLook, ref lookVelocity, smoothTime); //using the ref to keep track of the velocity to make the smoothing work
 
         // Horizontal rotation (rotate the player body)
-        transform.Rotate(Vector3.up * smoothLook.x * lookSensitivity * Time.deltaTime);
+        transform.Rotate(Vector3.up * smoothLook.x);
 
         // Vertical rotation (rotate camera only)
-        camRotationX -= smoothLook.y * lookSensitivity * Time.deltaTime;
+        camRotationX -= smoothLook.y;
         camRotationX = Mathf.Clamp(camRotationX, minLookY, maxLookY);
 
         cameraTransform.localRotation = Quaternion.Euler(camRotationX, 0f, 0f);

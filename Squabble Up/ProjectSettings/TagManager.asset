@@ -12,6 +12,10 @@ TagManager:
   - DeathFloor
   - Ground
   - Spawn Points
+  - Player1Camera
+  - Player2Camera
+  - Player1UI
+  - Player2UI
   layers:
   - Default
   - TransparentFX
@@ -21,9 +25,9 @@ TagManager:
   - UI
   - Player
   - Death Floor
-  - 
-  - 
-  - 
+  - Player1UI
+  - Player2UI
+  - Barriers
   - 
   - 
   - 

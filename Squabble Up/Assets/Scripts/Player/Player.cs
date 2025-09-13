@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using System;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInput))]
@@ -31,10 +32,13 @@ public class Player : MonoBehaviour
     public float maxLookY = 60f;            // Clamping the vertical look (down)
 
     [Header("Player Stuff")] //Fuck off, idk im gettng tired of writing these headers
-    public int health;
+    public int maxHealth = 100;
+    private int currentHealth;
     private static int playerCount = 0; //this is this track how many players have spawned 
     public bool death;
     public int deathCount = 0;
+    public event Action<int, int> OnHealthChanged; // currentHealth, maxHealth
+    public int playerNumber = 0; // Added to identify player (1 or 2)
 
     [Header("Components")] //cause i genuinely dont know what to call this part and its annoying that its not fucking organised
     public Rigidbody rb;
@@ -70,6 +74,11 @@ public class Player : MonoBehaviour
             gameObject.tag = "Player2";
         }
         playerCount++;
+        playerNumber = playerCount;
+
+        // Initialize health
+        currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
         //Get the player's input actions
         var playerInput = GetComponent<PlayerInput>();
@@ -179,7 +188,7 @@ public class Player : MonoBehaviour
         HandleCameraLook(); //Calling this in Update for smoother camera movement
 
         //Gonna call death here for now cause I genuinely dont give a flying fuck rn
-        if (health <= 0)
+        if (currentHealth <= 0)
         {
             Death();
         }
@@ -241,9 +250,9 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
+        currentHealth -= damage;
 
-        if (health <= 0) Invoke(nameof(Death), 0.5f);
+        if (currentHealth <= 0) Invoke(nameof(Death), 0.5f);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -277,5 +286,17 @@ public class Player : MonoBehaviour
         deathCount++;
         Debug.Log("Player Died");
         SceneManager.LoadScene("Death Scene");
+    }
+
+     // Public method to get current health
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+    
+    // Public method to get max health
+    public int GetMaxHealth()
+    {
+        return maxHealth;
     }
 }

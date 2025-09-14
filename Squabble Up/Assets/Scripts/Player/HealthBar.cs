@@ -127,4 +127,4 @@ public class HealthBar : MonoBehaviour
             player.OnHealthChanged -= UpdateHealth;
         }
     }
-}
+}//fuck C#, fuck any form of code cause i spent like 2-3hours on one line of code. Fuck you and fuck this, piece of fucking shit.

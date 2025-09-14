@@ -262,6 +262,9 @@ public class Player : MonoBehaviour
     {
         currentHealth -= damage;
 
+        // Notify health bar of the change
+    OnHealthChanged?.Invoke(currentHealth, maxHealth); //istg, ive been beefing with this for hours now, fuck code honestly...
+
         if (currentHealth <= 0) Invoke(nameof(Death), 0.5f);
     }
 

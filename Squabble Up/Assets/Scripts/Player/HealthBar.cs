@@ -11,8 +11,9 @@ public class HealthBar : MonoBehaviour
     [Header("Color Settings")]
     public Color fullHealthColor = Color.green;
     public Color lowHealthColor = Color.red;
-    public float colorChangeThreshold = 0.3f; // When to start showing red (30% health)
+    public float colorChangeThreshold = 0.3f;
     
+    [Header("Player-Data Settings")]
     private int currentHealth, maxHealth = 100;
     private float lerpSpeed = 3f;
     public Player player;
@@ -29,13 +30,13 @@ public class HealthBar : MonoBehaviour
             healthBar.color = fullHealthColor;
         }
         
-        // Find the player
-        FindPlayer();
+        // Delay initial player finding to ensure players are spawned
+        Invoke("FindPlayer", 0.5f);
     }
 
     void Update()
     {
-        // If player not found yet, keep trying (for dynamic spawning)
+        // If player not found yet, keep trying
         if (!playerFound)
         {
             FindPlayer();
@@ -62,6 +63,8 @@ public class HealthBar : MonoBehaviour
                 player = playerComponent;
                 playerFound = true;
                 
+                // Unsubscribe first to avoid duplicate subscriptions
+                player.OnHealthChanged -= UpdateHealth;
                 // Subscribe to health changes
                 player.OnHealthChanged += UpdateHealth;
                 
@@ -69,7 +72,10 @@ public class HealthBar : MonoBehaviour
                 currentHealth = player.GetCurrentHealth();
                 maxHealth = player.GetMaxHealth();
                 
-                Debug.Log($"Found {targetTag} for health bar");
+                // Force immediate update
+                UpdateHealth(currentHealth, maxHealth);
+                
+                Debug.Log($"Successfully connected to {targetTag} - Health: {currentHealth}/{maxHealth}");
             }
         }
         else
@@ -80,6 +86,7 @@ public class HealthBar : MonoBehaviour
 
     void UpdateHealth(int current, int max)
     {
+        Debug.Log($"Health update received: {current}/{max}");
         currentHealth = current;
         maxHealth = max;
         HealthColour();
@@ -100,10 +107,8 @@ public class HealthBar : MonoBehaviour
         {
             float healthPercentage = (float)currentHealth / maxHealth;
             
-            // Change color based on health percentage
             if (healthPercentage <= colorChangeThreshold)
             {
-                // Lerp to red as health decreases below threshold
                 float t = healthPercentage / colorChangeThreshold;
                 healthBar.color = Color.Lerp(lowHealthColor, fullHealthColor, t);
             }

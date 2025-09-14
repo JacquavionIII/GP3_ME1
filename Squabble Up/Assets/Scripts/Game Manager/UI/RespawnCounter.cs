@@ -24,7 +24,7 @@ public class RespawnCounter : MonoBehaviour
             {
                 respawnCounter = 0f;
                 isCounting = false;
-                //Gonna make sure to call my respawn logic here when it works properly.
+                //Gonna make sure to call my respawn logic here when it works properly. (Update: it works now...)
                 player.Respawn(player.spawnPoint.position);
             }
         }

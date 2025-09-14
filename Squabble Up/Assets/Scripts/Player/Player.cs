@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     private bool isRespawning = false;
     private float respawnTimer = 0f;
     public float respawnDelay = 2f; // Delay before respawning
+    private bool deathTriggered = false; // Prevent multiple death triggers cause this lil turd went up to 57 deaths after dying like three times
 
     [Header("Components")] //cause i genuinely dont know what to call this part and its annoying that its not fucking organised
     public Rigidbody rb;
@@ -291,6 +292,7 @@ public class Player : MonoBehaviour
         transform.position = respawnPosition;
 
         death = false;
+        deathTriggered = false; // Reset death trigger
         currentHealth = maxHealth; // Reset health or any other necessary stats
         Debug.Log("Player Respawned");
 
@@ -312,7 +314,9 @@ public class Player : MonoBehaviour
 
     public void Death()
     {
-
+        if (deathTriggered) return; // trying to avoid this getting called too much
+        
+        deathTriggered = true;
         death = true;
         deathCount++;
         Debug.Log("Player Died");
@@ -327,8 +331,8 @@ public class Player : MonoBehaviour
         }
         
         // Start respawn timer instead of immediately respawning
-        isRespawning = true;
-        respawnTimer = 0f;
+        // isRespawning = true;
+        // respawnTimer = 0f;
 
     }
 

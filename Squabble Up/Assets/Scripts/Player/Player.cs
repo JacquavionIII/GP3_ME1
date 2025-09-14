@@ -43,6 +43,9 @@ public class Player : MonoBehaviour
     public bool isP2; //bools to check if player2
     public Transform deathScreen1;
     public Transform deathScreen2;
+    private bool isRespawning = false;
+    private float respawnTimer = 0f;
+    public float respawnDelay = 2f; // Delay before respawning
 
     [Header("Components")] //cause i genuinely dont know what to call this part and its annoying that its not fucking organised
     public Rigidbody rb;
@@ -196,19 +199,17 @@ public class Player : MonoBehaviour
         HandleCameraLook(); //Calling this in Update for smoother camera movement
 
         //Gonna call death here for now cause I genuinely dont give a flying fuck rn
-        if (currentHealth <= 0)
+        //after so many fucking attemps hopefully this bullshit-ass respawn will fucking work, bloody poes
+        if (isRespawning)
         {
-            Death();
+            respawnTimer += Time.deltaTime;
+            if (respawnTimer >= respawnDelay)
+            {
+                Respawn(spawnPoint.position);
+                isRespawning = false;
+                respawnTimer = 0f;
+            }
         }
-
-        // if (deathCount <= 4) //if you havent died at least 4 times, then you revive
-        // {
-        //     Respawn(spawnPoint.position);
-        // }
-        // else if (deathCount >= 4) //if you die 4 times then game over.
-        // {
-        //     //load death scene, rn we gonna quit apllicationor whatever
-        // }
     }
 
     void FixedUpdate()
@@ -278,30 +279,56 @@ public class Player : MonoBehaviour
         }
     }
 
-    // public void Respawn(Vector3 spawnPoint) //fuck you respawn
-    // {
-    //     death = false;
-    //     gameObject.SetActive(true);
-    //     transform.position = spawnPoint;
-    //     health = 100; // Reset health or any other necessary stats
-    //     Debug.Log("Player Respawned");
-    // }
+    public void Respawn(Vector3 spawnPoint) //fuck you respawn
+    {
+        // Reset physics state
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        velocity = Vector3.zero;
+
+        // Position the player slightly above the spawn point to avoid ground collision issues
+        Vector3 respawnPosition = spawnPoint + Vector3.up * 0.5f;
+        transform.position = respawnPosition;
+
+        death = false;
+        currentHealth = maxHealth; // Reset health or any other necessary stats
+        Debug.Log("Player Respawned");
+
+        // Notify about health change
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        if (isP1 == true && death == false)
+        {
+            deathScreen1.gameObject.SetActive(false);
+        }
+        else if (isP2 == true && death == false)
+        {
+            deathScreen2.gameObject.SetActive(false);
+        }
+
+        // Force ground check update
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
+    }
 
     public void Death()
     {
-        //gameObject.SetActive(false);
+
         death = true;
         deathCount++;
         Debug.Log("Player Died");
         //SceneManager.LoadScene("Death Scene");
-        if (isP1 == true)
+        if (isP1 == true && death == true)
         {
             deathScreen1.gameObject.SetActive(true);
         }
-        else if (isP2 == true)
+        else if (isP2 == true && death == true)
         {
             deathScreen2.gameObject.SetActive(true);
         }
+        
+        // Start respawn timer instead of immediately respawning
+        isRespawning = true;
+        respawnTimer = 0f;
 
     }
 

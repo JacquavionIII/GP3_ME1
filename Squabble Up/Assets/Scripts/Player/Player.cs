@@ -39,6 +39,10 @@ public class Player : MonoBehaviour
     public int deathCount = 0;
     public event Action<int, int> OnHealthChanged; // currentHealth, maxHealth
     public int playerNumber = 0; // Added to identify player (1 or 2)
+    public bool isP1;  //bools to check if player1
+    public bool isP2; //bools to check if player2
+    public Transform deathScreen1;
+    public Transform deathScreen2;
 
     [Header("Components")] //cause i genuinely dont know what to call this part and its annoying that its not fucking organised
     public Rigidbody rb;
@@ -68,10 +72,14 @@ public class Player : MonoBehaviour
         if (playerCount % 2 == 0)
         {
             gameObject.tag = "Player1";
+            isP1 = true;
+            isP2 = false;
         }
         else
         {
             gameObject.tag = "Player2";
+            isP1 = false;
+            isP2 = true;
         }
         playerCount++;
         playerNumber = playerCount;
@@ -281,11 +289,20 @@ public class Player : MonoBehaviour
 
     public void Death()
     {
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
         death = true;
         deathCount++;
         Debug.Log("Player Died");
-        SceneManager.LoadScene("Death Scene");
+        //SceneManager.LoadScene("Death Scene");
+        if (isP1 == true)
+        {
+            deathScreen1.gameObject.SetActive(true);
+        }
+        else if (isP2 == true)
+        {
+            deathScreen2.gameObject.SetActive(true);
+        }
+
     }
 
      // Public method to get current health

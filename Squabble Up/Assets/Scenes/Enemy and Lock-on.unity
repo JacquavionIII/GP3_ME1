@@ -10123,6 +10123,30 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 847400190596907389, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 897860508178743241, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10.544711
+      objectReference: {fileID: 0}
+    - target: {fileID: 897860508178743241, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10.544711
+      objectReference: {fileID: 0}
+    - target: {fileID: 897860508178743241, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10.544711
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014701439437639166, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_Name
+      value: DeathScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014701439437639166, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1167015751458439247, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -10130,6 +10154,10 @@ PrefabInstance:
     - target: {fileID: 1293600109260310440, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3218837115359432649, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3438017521984443342, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_Layer
@@ -10206,6 +10234,10 @@ PrefabInstance:
     - target: {fileID: 7790481682826201472, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791833500539696565, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7823221729588644208, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_Layer

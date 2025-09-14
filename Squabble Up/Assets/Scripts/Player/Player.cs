@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
     public bool death;
     public int deathCount = 0;
     public event Action<int, int> OnHealthChanged; // currentHealth, maxHealth
-    public int playerNumber = 0; // Added to identify player (1 or 2)
+    public int playerNumber = 0; // Added to identify player (1 or 2), this is for my hpBar script
     public bool isP1;  //bools to check if player1
     public bool isP2; //bools to check if player2
     public Transform deathScreen1;
@@ -315,7 +315,7 @@ public class Player : MonoBehaviour
     public void Death()
     {
         if (deathTriggered) return; // trying to avoid this getting called too much
-        
+
         deathTriggered = true;
         death = true;
         deathCount++;

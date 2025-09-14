@@ -4,47 +4,77 @@ using UnityEngine.SceneManagement;
 
 public class HealthBar : MonoBehaviour
 {
-
+    [Header("Health Bar Settings")]
     public Image healthBar;
-    public Image[] healthPoints;
     public int playerIndex = 1; // Set this in inspector to match player (1 or 2)
-    int currentHealth, maxHealth = 100;
-    private float lerpSpeed;
-    public Player player; // Reference to the Player script
+    
+    [Header("Color Settings")]
+    public Color fullHealthColor = Color.green;
+    public Color lowHealthColor = Color.red;
+    public float colorChangeThreshold = 0.3f; // When to start showing red (30% health)
+    
+    private int currentHealth, maxHealth = 100;
+    private float lerpSpeed = 3f;
+    public Player player;
+    private bool playerFound = false;
 
     void Start()
     {
-        // Find the player based on index
-        FindPlayer();
-
-        // If player not found, try again after a delay (in case players spawn later)
-        if (player == null)
+        // Initial health bar setup
+        if (healthBar != null)
         {
-            Invoke("FindPlayer", 1f);
+            healthBar.type = Image.Type.Filled;
+            healthBar.fillMethod = Image.FillMethod.Horizontal;
+            healthBar.fillAmount = 1f;
+            healthBar.color = fullHealthColor;
+        }
+        
+        // Find the player
+        FindPlayer();
+    }
+
+    void Update()
+    {
+        // If player not found yet, keep trying (for dynamic spawning)
+        if (!playerFound)
+        {
+            FindPlayer();
+        }
+        
+        // Smooth health bar updates
+        if (playerFound)
+        {
+            UpdateHealthBar();
         }
     }
 
     void FindPlayer()
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
-        foreach (GameObject p in players)
+        // Use the specific player tag based on playerIndex
+        string targetTag = "Player" + playerIndex;
+        GameObject playerObject = GameObject.FindWithTag(targetTag);
+        
+        if (playerObject != null)
         {
-            Player playerComponent = p.GetComponent<Player>();
-            if (playerComponent != null && playerComponent.playerNumber == playerIndex)
+            Player playerComponent = playerObject.GetComponent<Player>();
+            if (playerComponent != null)
             {
                 player = playerComponent;
-
+                playerFound = true;
+                
                 // Subscribe to health changes
                 player.OnHealthChanged += UpdateHealth;
-
+                
                 // Initialize health display
                 currentHealth = player.GetCurrentHealth();
                 maxHealth = player.GetMaxHealth();
-                UpdateHealthBar();
-
-                break;
+                
+                Debug.Log($"Found {targetTag} for health bar");
             }
+        }
+        else
+        {
+            Debug.LogWarning($"{targetTag} not found. Will retry...");
         }
     }
 
@@ -52,25 +82,36 @@ public class HealthBar : MonoBehaviour
     {
         currentHealth = current;
         maxHealth = max;
-        UpdateHealthBar();
+        HealthColour();
     }
 
     void UpdateHealthBar()
     {
-        if (healthPoints == null || healthPoints.Length == 0) return;
-
-        for (int i = 0; i < healthPoints.Length; i++)
+        if (healthBar != null && maxHealth > 0)
         {
-            if (healthPoints[i] != null)
-            {
-                healthPoints[i].enabled = !DisplayHealthPoints(currentHealth, i);
-            }
+            float targetFillAmount = (float)currentHealth / maxHealth;
+            healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, targetFillAmount, lerpSpeed * Time.deltaTime);
         }
     }
 
-    public bool DisplayHealthPoints(float health, int pointNumber)
+    void HealthColour()
     {
-        return ((pointNumber * 10) >= health);
+        if (healthBar != null)
+        {
+            float healthPercentage = (float)currentHealth / maxHealth;
+            
+            // Change color based on health percentage
+            if (healthPercentage <= colorChangeThreshold)
+            {
+                // Lerp to red as health decreases below threshold
+                float t = healthPercentage / colorChangeThreshold;
+                healthBar.color = Color.Lerp(lowHealthColor, fullHealthColor, t);
+            }
+            else
+            {
+                healthBar.color = fullHealthColor;
+            }
+        }
     }
     
     void OnDestroy()
@@ -81,10 +122,4 @@ public class HealthBar : MonoBehaviour
             player.OnHealthChanged -= UpdateHealth;
         }
     }
-
-    // public void Heal(float healPoints)
-    // {
-    //     if (health < maxHealth)
-    //         health += healPoints;
-    // }
 }

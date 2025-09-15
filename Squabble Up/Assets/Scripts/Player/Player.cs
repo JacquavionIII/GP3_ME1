@@ -61,10 +61,10 @@ public class Player : MonoBehaviour
     public Transform spawnPoint;            //Spawn Point
 
     [Header("Input Actions")]
-    private InputAction moveAction;         // Input action for movement
-    private InputAction lookAction;         // Input action for looking around
-    private InputAction jumpAction;         // Input action for jumping
-    private InputAction attackAction;  // Input action for attack
+    public InputAction moveAction;         // Input action for movement
+    public InputAction lookAction;         // Input action for looking around
+    public InputAction jumpAction;         // Input action for jumping
+    public InputAction attackAction;  // Input action for attack
 
 
     void Awake()
@@ -148,6 +148,7 @@ public class Player : MonoBehaviour
         {
             // Jump velocity based on physics equation
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            anim.SetBool("isJumping", true);
         }
     }
 
@@ -156,7 +157,7 @@ public class Player : MonoBehaviour
         if (context.performed)
         {
             // Trigger light attack animation
-            //anim.SetTrigger("lightAttack");
+            anim.SetBool("isAttacking", true);
 
             // Show light attack VFX
             if (lightAttackVFX != null)
@@ -183,7 +184,9 @@ public class Player : MonoBehaviour
         if (lightAttackVFX != null)
         {
             lightAttackVFX.gameObject.SetActive(false);
+            anim.SetBool("isAttacking", false);
         }
+        
     }
 
     void Update()
@@ -195,6 +198,7 @@ public class Player : MonoBehaviour
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f; // small downward force keeps player grounded
+            anim.SetBool("isJumping", false);
         }
 
         HandleCameraLook(); //Calling this in Update for smoother camera movement
@@ -313,6 +317,7 @@ public class Player : MonoBehaviour
 
         // Force ground check update
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
+        anim.SetBool("isDead", false);
     }
 
     public void Death()
@@ -320,6 +325,7 @@ public class Player : MonoBehaviour
         if (deathTriggered) return; // trying to avoid this getting called too much
 
         deathTriggered = true;
+        anim.SetBool("isDead", true);
         death = true;
         deathCount++;
         Debug.Log("Player Died");

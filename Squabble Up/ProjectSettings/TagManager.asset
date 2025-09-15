@@ -3,7 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Zone
+  - Enemy
+  - Player1
+  - Player2
+  - PlayerAttack
+  - DeathFloor
+  - Ground
+  - Spawn Points
+  - Player1Camera
+  - Player2Camera
+  - Player1UI
+  - Player2UI
   layers:
   - Default
   - TransparentFX
@@ -11,11 +23,11 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Death Floor
+  - Player1UI
+  - Player2UI
+  - Barriers
   - 
   - 
   - 

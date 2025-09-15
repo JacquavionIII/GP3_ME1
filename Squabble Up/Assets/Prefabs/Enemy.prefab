@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 496217628033993019}
   - component: {fileID: 4704950025264005381}
   - component: {fileID: 3241093585110544580}
-  - component: {fileID: 839910836462785964}
   - component: {fileID: 5995756425506285441}
   - component: {fileID: 770452404725823086}
   m_Layer: 0
@@ -152,33 +151,6 @@ MonoBehaviour:
           m_Value1: 14823931719536687837
         Name: Target
         m_Value: {fileID: 5353387631313361846, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
---- !u!54 &839910836462785964
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1606799846668788433}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!195 &5995756425506285441
 NavMeshAgent:
   m_ObjectHideFlags: 0

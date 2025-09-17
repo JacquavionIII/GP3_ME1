@@ -333,10 +333,10 @@ RectTransform:
   - {fileID: 111272160680573994}
   m_Father: {fileID: 7231330950582975880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3352170868653033591
 CanvasRenderer:
@@ -516,14 +516,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.25
+  m_fontSize: 15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 10
+  m_fontSizeMax: 15
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -684,7 +684,7 @@ MonoBehaviour:
   playerIndex: 1
   fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
   lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
-  colorChangeThreshold: 0.3
+  colorChangeThreshold: 0.4
   player: {fileID: 285107663198265475}
 --- !u!1 &1467604869725390987
 GameObject:
@@ -6150,10 +6150,10 @@ RectTransform:
   - {fileID: 5507702948034889605}
   m_Father: {fileID: 5971160414614428883}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8600183741868838249
 CanvasRenderer:
@@ -6461,7 +6461,7 @@ MonoBehaviour:
   playerIndex: 2
   fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
   lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
-  colorChangeThreshold: 0.3
+  colorChangeThreshold: 0.4
   player: {fileID: 285107663198265475}
 --- !u!1 &3748828280625224702
 GameObject:
@@ -7265,13 +7265,13 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  enemy: {fileID: 0}
+  enemy: {fileID: 770452404725823086, guid: 2c1dc79fbb3cd134ea12bc4cac846cef, type: 3}
   lightAttackVFX: {fileID: 7681968501206105321}
   cameraTransform: {fileID: 4693072073627540239}
   mouseSensitivity: 0.1
   controllerSensitivity: 200
   smoothTime: 0.05
-  minLookY: -10
+  minLookY: -13
   maxLookY: 10
   maxHealth: 100
   death: 0
@@ -8093,15 +8093,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 30
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 10
+  m_fontSizeMax: 20
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -8261,14 +8261,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.25
+  m_fontSize: 30
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 10
+  m_fontSizeMax: 15
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -8397,15 +8397,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 20
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 10
+  m_fontSizeMax: 20
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

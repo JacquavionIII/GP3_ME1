@@ -3,7 +3,7 @@ using TMPro;
 
 public class RespawnCounter : MonoBehaviour
 {
-    public float respawnCounter = 10f;
+    public float respawnCounter = 5f;
     public Player player;
     public bool isCounting = false;
     public TextMeshProUGUI respawnText;
@@ -12,7 +12,7 @@ public class RespawnCounter : MonoBehaviour
     {
         if (player.death && !isCounting)
         {
-            respawnCounter = 10f;
+            respawnCounter = 5f;
             isCounting = true;
         }
 
@@ -32,7 +32,7 @@ public class RespawnCounter : MonoBehaviour
         if (!player.death)
         {
             isCounting = false;
-            respawnCounter = 10f; // Optional: reset when alive
+            respawnCounter = 5f; // Optional: reset when alive
         }
     }
 }

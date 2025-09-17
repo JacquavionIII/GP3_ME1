@@ -15,7 +15,7 @@ public class Zone : MonoBehaviour
     public bool isPlayerInZone;
     public bool zoneContested;
     public bool gameWon = false;
-    private bool hasScored = false;
+    //private bool hasScored = false;
     public bool player1; //doin this to check which player got the zone.
     public bool player2; //so we'll call these two to see when the zone has been captured.
 
@@ -76,11 +76,11 @@ public class Zone : MonoBehaviour
             {
                 enemyCapture = false;
                 isCaptured = true;
-                if (!hasScored) //this is to make sure this fucking score only goes up once
-                {
-                    ZoneScore.instance.AddZoneScore();
-                    hasScored = true;
-                } //Imma fucken tweak if this bitch doesnt doesn't score once...
+                // if (!hasScored) //this is to make sure this fucking score only goes up once
+                // {
+                //     ZoneScore.instance.AddZoneScore();
+                //     hasScored = true;
+                // } //Imma fucken tweak if this bitch doesnt doesn't score once...
             }
         }
 

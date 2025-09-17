@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 770452404725823086}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,7 +165,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 3
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -199,7 +199,7 @@ MonoBehaviour:
   walkPointRange: 5
   timeBetweenAttacks: 0.5
   sightRange: 20
-  attackRange: 12
+  attackRange: 3
   playerInSightRange: 0
   playerInAttackRange: 0
   players: []
@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 1543870716226482439}
   - component: {fileID: 206656774764445649}
   - component: {fileID: 1165359916568603936}
+  - component: {fileID: 8175262377300957053}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Enemy
@@ -229,13 +230,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7610823680878658388}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.99952024, y: -0, z: -0, w: -0.030972835}
-  m_LocalPosition: {x: 1.3399999, y: 0.29999995, z: -1.1000004}
-  m_LocalScale: {x: 0.37666574, y: 0.116477825, z: 0.094982386}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4658869372863814662}
-  m_LocalEulerAnglesHint: {x: -183.55, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &206656774764445649
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -319,7 +320,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 2.6
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -372,7 +373,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 5.52
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -490,7 +491,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2.15
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -807,7 +808,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 187
+    maxNumParticles: 20
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -867,15 +868,15 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
+    type: 4
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Rotation: {x: -0, y: 0, z: 0}
+    m_Scale: {x: 1, y: 1, z: 0.3695228}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -954,7 +955,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 3.99
+      value: 0.97
       mode: 0
       spread: 0
       speed:
@@ -5036,3 +5037,24 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!135 &8175262377300957053
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7610823680878658388}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.98019284
+  m_Center: {x: 0, y: 0.024411738, z: 0}

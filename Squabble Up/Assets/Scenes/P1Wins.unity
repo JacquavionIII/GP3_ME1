@@ -340,7 +340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_text
-      value: You Win
+      value: P2 Wins
       objectReference: {fileID: 0}
     - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_fontSize
@@ -371,8 +371,12 @@ PrefabInstance:
       value: 4278255363
       objectReference: {fileID: 0}
     - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_HorizontalAlignment
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7471145431077798283, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_Name

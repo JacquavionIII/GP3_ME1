@@ -18,10 +18,12 @@ public class Zone : MonoBehaviour
     //private bool hasScored = false;
     public bool player1; //doin this to check which player got the zone.
     public bool player2; //so we'll call these two to see when the zone has been captured.
+    private int currentOwner = 0; // 0 = no player, 1 = Player1, 2 = Player2
 
     [Header("References")]
     public GameObject player;
     public GameObject enemy;
+    public GameManager gm;
     public Image zoneDisplay; //tryin something... calling the UI image directly editing it
     public Color player1Colour = Color.blue;
     public Color player2Colour = Color.red;
@@ -40,25 +42,37 @@ public class Zone : MonoBehaviour
             zoneContested = false;
         }
 
-        // Always update color based on state
-        if (zoneContested)
+        if (zoneContested) //to always update the ui colour
         {
             zoneDisplay.color = contestedColour;
         }
         else if (isCaptured)
         {
-            if (player1)
+            if (player1 && currentOwner != 1)
             {
                 zoneDisplay.color = player1Colour;
+                if (currentOwner == 2)// Remove this zone from previous owner
+                {
+                    gm.p2ZoneCount--;
+                }
+                gm.p1ZoneCount++;
+                currentOwner = 1;
             }
-            else if (player2)
+            else if (player2 && currentOwner != 2)
             {
                 zoneDisplay.color = player2Colour;
-            }    
+                if (currentOwner == 1)
+                {
+                    gm.p1ZoneCount--; // Remove this zone from previous owner
+                }
+                gm.p2ZoneCount++;
+                currentOwner = 2;
+            }
         }
         else
         {
             zoneDisplay.color = Color.green;
+            currentOwner = 0; //so that it does not get assigned to anyone
         }
 
         if (zoneContested) // If the zone is contested, reset the capture state

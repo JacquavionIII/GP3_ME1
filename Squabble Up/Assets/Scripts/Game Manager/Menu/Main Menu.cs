@@ -6,7 +6,7 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         //SceneManager.LoadScene("Game Scene");
-        SceneManager.LoadScene("Enemy and Lock-on");
+        SceneManager.LoadScene("Capture The Flag");
     }
 
     public void QuitGame()

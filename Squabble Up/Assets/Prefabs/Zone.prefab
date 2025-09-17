@@ -164,5 +164,12 @@ MonoBehaviour:
   isPlayerInZone: 0
   zoneContested: 0
   gameWon: 0
+  player1: 0
+  player2: 0
   player: {fileID: 5353387631313361846, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
   enemy: {fileID: 1606799846668788433, guid: 2c1dc79fbb3cd134ea12bc4cac846cef, type: 3}
+  gm: {fileID: 6237908002870959516, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
+  zoneDisplay: {fileID: 0}
+  player1Colour: {r: 0, g: 0, b: 1, a: 1}
+  player2Colour: {r: 1, g: 0, b: 0, a: 1}
+  contestedColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

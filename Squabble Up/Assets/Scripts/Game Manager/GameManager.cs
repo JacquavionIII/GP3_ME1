@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public Zone zone;
     public int p1ZoneCount = 0;
     public int p2ZoneCount = 0;
-    public int zoneWin = 4;
+    public int zoneWin = 4; //zone count needed to win
 
     void Update()
     {

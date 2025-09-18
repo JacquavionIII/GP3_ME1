@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 909140141433717464}
   - component: {fileID: 6237908002870959516}
+  - component: {fileID: 8974539619151788725}
   m_Layer: 0
   m_Name: GM
   m_TagString: Untagged
@@ -49,3 +50,11 @@ MonoBehaviour:
   p1ZoneCount: 0
   p2ZoneCount: 0
   zoneWin: 4
+--- !u!81 &8974539619151788725
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2996676116360365221}
+  m_Enabled: 1

@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     public Transform attackVFX;
     public LayerMask whatIsGround, whatIsPlayer;
     public int Health;
+    public Animator anim;
 
     [Header("Patroling")]
     public Vector3 walkPoint;
@@ -74,6 +75,7 @@ public class Enemy : MonoBehaviour
 
     public void Patroling()
     {
+        anim.SetBool("isPatrolling", true);
         if (!walkPointSet) SearchWalkPoint();
         if (walkPointSet)
             agent.SetDestination(walkPoint);
@@ -82,7 +84,11 @@ public class Enemy : MonoBehaviour
 
         //Walkpoint reached
         if (distanceToWalkPoint.magnitude < 1f)
+        {
             walkPointSet = false;
+        }
+        anim.SetBool("isChasing", false);
+        anim.SetBool("isAttackingPlayer", false);
     }
 
     private void SearchWalkPoint()
@@ -101,6 +107,9 @@ public class Enemy : MonoBehaviour
 
     private void ChasePlayer()
     {
+        anim.SetBool("isChasing", true);
+        anim.SetBool("isPatrolling", false);
+        anim.SetBool("isAttackingPlayer", false);
         agent.SetDestination(player.position);
     }
 
@@ -110,6 +119,9 @@ public class Enemy : MonoBehaviour
         agent.SetDestination(transform.position);
 
         transform.LookAt(player);
+        anim.SetBool("isAttackingPlayer", true);
+        anim.SetBool("isChasing", false);
+        anim.SetBool("isPatrolling", false);
 
         if (!alreadyAttacked)
         {
@@ -118,7 +130,7 @@ public class Enemy : MonoBehaviour
             if (attackVFX != null)
             {
                 attackVFX.gameObject.SetActive(true);
-                Invoke(nameof(DisableAttackVFX), 0.5f); 
+                Invoke(nameof(DisableAttackVFX), 0.5f);
             }
 
             alreadyAttacked = true;
@@ -162,7 +174,14 @@ public class Enemy : MonoBehaviour
     {
         Health -= damage;
 
-        if (Health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+        if (Health <= 0)
+        {
+            anim.SetBool("isChasing", false);
+            anim.SetBool("isPatrolling", false);
+            anim.SetBool("isAttackingPlayer", false);
+            anim.SetBool("isDead", true);
+            Invoke(nameof(DestroyEnemy), 0.5f);
+        }
     }
     
     private void DestroyEnemy()

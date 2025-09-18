@@ -267,7 +267,7 @@ public class Player : MonoBehaviour
         currentHealth -= damage;
 
         // Notify health bar of the change
-    OnHealthChanged?.Invoke(currentHealth, maxHealth); //istg, ive been beefing with this for hours now, fuck code honestly...
+        OnHealthChanged?.Invoke(currentHealth, maxHealth); //istg, ive been beefing with this for hours now, fuck code honestly...
 
         if (currentHealth <= 0) Invoke(nameof(Death), 0.5f);
     }
@@ -277,7 +277,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("PlayerAttack"))
         {
             Debug.Log("Player hit by enemy");
-            TakeDamage(10); // Player takes damage when colliding with enemy
+            TakeDamage(5); // Player takes damage when colliding with enemy
         }
 
         if (collision.gameObject.CompareTag("Player2") && isP1)

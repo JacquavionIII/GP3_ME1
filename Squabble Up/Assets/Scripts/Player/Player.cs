@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
     private float respawnTimer = 0f;
     public float respawnDelay = 2f; // Delay before respawning
     private bool deathTriggered = false; // Prevent multiple death triggers cause this lil turd went up to 57 deaths after dying like three times
+    public event Action<int> OnPlayerDeath; // so that the game manager can pick up whenever the player dies and also uses the player number
 
     [Header("Components")] //cause i genuinely dont know what to call this part and its annoying that its not fucking organised
     public Rigidbody rb;
@@ -340,6 +341,7 @@ public class Player : MonoBehaviour
         anim.SetBool("isDead", true);
         death = true;
         deathCount++;
+        OnPlayerDeath?.Invoke(playerNumber); //the player dies and their playernumber is linked and calling the event
         Debug.Log("Player Died");
         //SceneManager.LoadScene("Death Scene");
         if (isP1 == true && death == true)

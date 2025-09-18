@@ -68,8 +68,8 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.58351755, g: 0, b: 1, a: 1}
-  m_Intensity: 1000000
-  m_Range: 44.9
+  m_Intensity: 100000
+  m_Range: 17.719938
   m_SpotAngle: 179
   m_InnerSpotAngle: 179
   m_CookieSize: 10
@@ -110,7 +110,7 @@ Light:
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 100
+  m_BounceIntensity: 10
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -169,11 +169,11 @@ MonoBehaviour:
   player2: 0
   player: {fileID: 5353387631313361846, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
   enemy: {fileID: 1606799846668788433, guid: 2c1dc79fbb3cd134ea12bc4cac846cef, type: 3}
-  gm: {fileID: 6237908002870959516, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
+  gm: {fileID: 0}
   zoneDisplay: {fileID: 0}
-  player1Colour: {r: 0, g: 0, b: 1, a: 1}
-  player2Colour: {r: 1, g: 0, b: 0, a: 1}
-  contestedColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  player1Colour: {r: 0, g: 0, b: 1, a: 0.69803923}
+  player2Colour: {r: 1, g: 0, b: 0, a: 0.69803923}
+  contestedColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 0.69803923}
 --- !u!1 &8638773072502363428
 GameObject:
   m_ObjectHideFlags: 0

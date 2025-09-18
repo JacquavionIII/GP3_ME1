@@ -7,9 +7,22 @@ public class RespawnCounter : MonoBehaviour
     public Player player;
     public bool isCounting = false;
     public TextMeshProUGUI respawnText;
+    private GameManager gameManager;
+
+    void Start()
+    {
+        gameManager = FindAnyObjectByType<GameManager>();
+    }
 
     public void Update()
     {
+        if ((player.isP1 && gameManager.p1RespawnCount > GameManager.MAX_RESPAWNS) ||
+            (player.isP2 && gameManager.p2RespawnCount > GameManager.MAX_RESPAWNS))
+        {
+            respawnText.text = "No Respawns Left";
+            return;
+        }
+        
         if (player.death && !isCounting)
         {
             respawnCounter = 5f;

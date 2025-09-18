@@ -4,16 +4,29 @@ public class AudioManager : MonoBehaviour
 {
     [Header("Audio Sources")]
     [SerializeField] AudioSource musicSource;
-    [SerializeField] AudioSource sfxSource;
+    [SerializeField] AudioSource sfxSourceGeneral;
+    [SerializeField] AudioSource sfxSourcePlayer;
+    [SerializeField] AudioSource sfxSourceEnemy;
 
     [Header("Audio Clips")]
     public AudioClip backgroundMusicNormal;
     public AudioClip backgroundMusicBattle;
-    public AudioClip discardCard;
-    public AudioClip drawCard;
-    public AudioClip placeCardDown;
-    public AudioClip pickupPaper;
-    public AudioClip menuButtons;
+    public AudioClip enemygrunt;
+    public AudioClip enemyAttack;
+    public AudioClip enemyFoundPlayer;
+    public AudioClip enemyDie;
+    public AudioClip playerAttack;
+    public AudioClip playerRun;
+    public AudioClip playerJump;
+    public AudioClip playerLand;
+    public AudioClip playerDie;
+    public AudioClip zoneCaught;
+    public AudioClip zoneStolen;
+    public AudioClip deathScreen;
+    public AudioClip menuPause;
+    public AudioClip menuConfirmButtons;
+    public AudioClip menuBackButtons;
+    public AudioClip menuExit;
 
     public static AudioManager instance;
     public bool notInBattle = true; // Set this to false when in battle
@@ -29,25 +42,30 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
     }
 
     public void Start()
     {
-        if (notInBattle== true)
+        if (notInBattle == true)
         {
             musicSource.clip = backgroundMusicNormal;
             musicSource.Play();
         }
-        else if (notInBattle== false)
+        else if (notInBattle == false)
         {
             musicSource.clip = backgroundMusicBattle;
             musicSource.Play();
         }
     }
 
-    public void PlaySFX(AudioClip clip)
+    public void PlayPlayerSFX(AudioClip clip)
     {
-        sfxSource.PlayOneShot(clip);
+        sfxSourcePlayer.PlayOneShot(clip);
+    }
+    
+    public void PlayEnemySFX(AudioClip clip)
+    {
+        sfxSourceEnemy.PlayOneShot(clip);
     }
 }

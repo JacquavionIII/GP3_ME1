@@ -71,9 +71,14 @@ public class AudioManager : MonoBehaviour
     {
         sfxSourcePlayer.PlayOneShot(clip);
     }
-    
+
     public void PlayEnemySFX(AudioClip clip)
     {
         sfxSourceEnemy.PlayOneShot(clip);
+    }
+    
+    public void PlayGeneralSFX(AudioClip clip)
+    {
+        sfxSourceGeneral.PlayOneShot(clip);
     }
 }

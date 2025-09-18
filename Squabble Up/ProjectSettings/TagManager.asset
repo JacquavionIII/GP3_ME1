@@ -16,6 +16,7 @@ TagManager:
   - Player2Camera
   - Player1UI
   - Player2UI
+  - Audio
   layers:
   - Default
   - TransparentFX

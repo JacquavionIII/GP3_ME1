@@ -27,9 +27,12 @@ public class Enemy : MonoBehaviour
     public bool playerInSightRange, playerInAttackRange;
 
     public List<Transform> players = new List<Transform>();
+    AudioManager audioManager;
 
     public void Awake()
     {
+        //audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
         // Hopefully the enemy will go and search for both "Player" and "Player2" tags
         players.Clear();
         foreach (var go in GameObject.FindGameObjectsWithTag("Player1"))
@@ -89,6 +92,7 @@ public class Enemy : MonoBehaviour
         }
         anim.SetBool("isChasing", false);
         anim.SetBool("isAttackingPlayer", false);
+        //audioManager.PlayEnemySFX(audioManager.enemygrunt);
     }
 
     private void SearchWalkPoint()
@@ -111,6 +115,7 @@ public class Enemy : MonoBehaviour
         anim.SetBool("isPatrolling", false);
         anim.SetBool("isAttackingPlayer", false);
         agent.SetDestination(player.position);
+        //audioManager.PlayEnemySFX(audioManager.enemyFoundPlayer);
     }
 
     private void AttackPlayer()
@@ -122,6 +127,7 @@ public class Enemy : MonoBehaviour
         anim.SetBool("isAttackingPlayer", true);
         anim.SetBool("isChasing", false);
         anim.SetBool("isPatrolling", false);
+        //audioManager.PlayEnemySFX(audioManager.enemyAttack);
 
         if (!alreadyAttacked)
         {

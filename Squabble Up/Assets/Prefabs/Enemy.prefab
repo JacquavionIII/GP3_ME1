@@ -144,13 +144,14 @@ MonoBehaviour:
   Health: 50
   anim: {fileID: 4101352035696959952}
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 5
+  walkPointRange: 10
   timeBetweenAttacks: 0.5
-  sightRange: 20
-  attackRange: 3
+  sightRange: 15
+  attackRange: 5
   playerInSightRange: 0
   playerInAttackRange: 0
   players: []
+  audioManager: {fileID: 0}
 --- !u!82 &9005419666113661246
 AudioSource:
   m_ObjectHideFlags: 0

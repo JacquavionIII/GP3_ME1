@@ -9,6 +9,12 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Capture The Flag");
     }
 
+    public void ExplainGame()
+    {
+        //SceneManager.LoadScene("Explain Scene");
+        SceneManager.LoadScene("Explain");
+    }
+
     public void QuitGame()
     {
         Application.Quit();

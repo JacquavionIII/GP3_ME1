@@ -144,17 +144,17 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("PlayerAttack"))
         {
             Debug.Log("Player hit by enemy");
-            TakeDamage(10); // Enemy takes damage when colliding with player
+            TakeDamage(20); // Enemy takes damage when colliding with player
         }
         if (collision.gameObject.CompareTag("Player1"))
         {
             Debug.Log("Player hit by enemy");
-            TakeDamage(10); // Enemy takes damage when colliding with player
+            TakeDamage(20); // Enemy takes damage when colliding with player
         }
         if (collision.gameObject.CompareTag("Player2"))
         {
             Debug.Log("Player hit by enemy");
-            TakeDamage(10); // Enemy takes damage when colliding with player
+            TakeDamage(20); // Enemy takes damage when colliding with player
         }
     }
 

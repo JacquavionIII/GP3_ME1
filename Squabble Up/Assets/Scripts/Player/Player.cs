@@ -280,11 +280,23 @@ public class Player : MonoBehaviour
             TakeDamage(10); // Player takes damage when colliding with enemy
         }
 
-        if (collision.gameObject.CompareTag("DeathFloor"))
+        if (collision.gameObject.CompareTag("Player2") && isP1)
         {
-            Debug.Log("Player fell off the map and died like a bitch");
-            Death(); // Player dies instantly when hitting the death floor
+            Debug.Log("P2 is chowing you dude");
+            TakeDamage(15); // Player takes damage when colliding with enemy
+
         }
+        else if (collision.gameObject.CompareTag("Player2") && isP2)
+        {
+            Debug.Log("P1 is frying you");
+            TakeDamage(15); // Player takes damage when colliding with enemy
+        }
+
+        if (collision.gameObject.CompareTag("DeathFloor"))
+            {
+                Debug.Log("Player fell off the map and died like a bitch");
+                Death(); // Player dies instantly when hitting the death floor
+            }
     }
 
     public void Respawn(Vector3 spawnPoint) //fuck you respawn

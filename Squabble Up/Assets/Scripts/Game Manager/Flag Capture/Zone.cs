@@ -31,72 +31,93 @@ public class Zone : MonoBehaviour
 
     public void Update() //I made a lot of comments cause this sht genuinely confuses me when i need to read the logic behind the if statements since i made a lot of them
     {
-        if (gameWon) return; // If the game is won, skip further processing
+        if (gameWon) return;
 
-        if (playerCount >= 2) //two players in the zone makes it contested
-        {
-            zoneContested = true;
-        }
-        else // If there are less than two players, the zone is not contested
-        {
-            zoneContested = false;
-        }
+        // Handle zone contention
+        zoneContested = (playerCount >= 2);
 
-        if (zoneContested) //to always update the ui colour
+        // Handle ownership transitions and UI
+        if (zoneContested)
         {
-            zoneDisplay.color = contestedColour;
+            HandleContestedState();
         }
         else if (isCaptured)
         {
-            if (player1 && currentOwner != 1)
-            {
-                zoneDisplay.color = player1Colour;
-                if (currentOwner == 2)// Remove this zone from previous owner
-                {
-                    gm.p2ZoneCount--;
-                }
-                gm.p1ZoneCount++;
-                currentOwner = 1;
-            }
-            else if (player2 && currentOwner != 2)
-            {
-                zoneDisplay.color = player2Colour;
-                if (currentOwner == 1)
-                {
-                    gm.p1ZoneCount--; // Remove this zone from previous owner
-                }
-                gm.p2ZoneCount++;
-                currentOwner = 2;
-            }
+            HandleCapturedState();
         }
         else
         {
-            zoneDisplay.color = Color.green;
-            currentOwner = 0; //so that it does not get assigned to anyone
+            HandleNeutralState();
         }
 
-        if (zoneContested) // If the zone is contested, reset the capture state
+        // Handle capture logic
+        UpdateCaptureState();
+    }
+
+    private void HandleContestedState()
+    {
+        zoneDisplay.color = contestedColour;
+        if (currentOwner != 0)
+        {
+            // Remove zone from previous owner when contested
+            if (currentOwner == 1) gm.p1ZoneCount--;
+            else if (currentOwner == 2) gm.p2ZoneCount--;
+            currentOwner = 0;
+        }
+    }
+
+    private void HandleCapturedState()
+    {
+        if (player1 && currentOwner != 1)
+        {
+            UpdateOwnership(1, player1Colour);
+        }
+        else if (player2 && currentOwner != 2)
+        {
+            UpdateOwnership(2, player2Colour);
+        }
+    }
+
+    private void HandleNeutralState()
+    {
+        zoneDisplay.color = Color.green;
+        if (currentOwner != 0)
+        {
+            // Remove zone from previous owner when neutral
+            if (currentOwner == 1) gm.p1ZoneCount--;
+            else if (currentOwner == 2) gm.p2ZoneCount--;
+            currentOwner = 0;
+        }
+    }
+
+    private void UpdateOwnership(int newOwner, Color color)
+    {
+        // Remove from previous owner
+        if (currentOwner == 1) gm.p1ZoneCount--;
+        else if (currentOwner == 2) gm.p2ZoneCount--;
+
+        // Add to new owner
+        if (newOwner == 1) gm.p1ZoneCount++;
+        else if (newOwner == 2) gm.p2ZoneCount++;
+
+        currentOwner = newOwner;
+        zoneDisplay.color = color;
+    }
+
+    private void UpdateCaptureState()
+    {
+        if (zoneContested)
         {
             isCaptured = false;
             enemyCapture = false;
         }
-        else if (isPlayerInZone) // If a player is in the zone and it's not contested
+        else if (isPlayerInZone)
         {
-            if (isEnemyInZone) // If an enemy is also in the zone
-            {
-                enemyCapture = true;
-            }
-            else // If no enemy is in the zone, the player captures it
-            {
-                enemyCapture = false;
-                isCaptured = true;
-                // if (!hasScored) //this is to make sure this fucking score only goes up once
-                // {
-                //     ZoneScore.instance.AddZoneScore();
-                //     hasScored = true;
-                // } //Imma fucken tweak if this bitch doesnt doesn't score once...
-            }
+            enemyCapture = isEnemyInZone;
+            isCaptured = !enemyCapture;
         }
+    }
+
 
         // if (isCaptured == true) //if it's captured then we'll set it to the player that captured it
         // {
@@ -113,7 +134,6 @@ public class Zone : MonoBehaviour
         // {
         //     zoneDisplay.color = Color.white;
         // }
-    }
 
     private void OnTriggerEnter(Collider collision)
     {

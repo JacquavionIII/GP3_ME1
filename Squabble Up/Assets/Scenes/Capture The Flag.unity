@@ -38058,6 +38058,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 62125825e49febf4a89f76daf85d9ca7, type: 3}
   m_PrefabInstance: {fileID: 1161194062}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1161327916 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6343057381401219855, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
+  m_PrefabInstance: {fileID: 1939551511}
+  m_PrefabAsset: {fileID: 0}
 --- !u!82 &1161327917 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 7136400481591658326, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
@@ -39062,6 +39067,7 @@ Transform:
   m_Children:
   - {fileID: 546069369}
   - {fileID: 1902024636}
+  - {fileID: 1161327916}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1187376474
@@ -72844,7 +72850,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1186954881}
     m_Modifications:
     - target: {fileID: 111272160680573994, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -72876,15 +72882,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6343057381401219855, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.7387366
+      value: -3.8887367
       objectReference: {fileID: 0}
     - target: {fileID: 6343057381401219855, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000047683716
+      value: -3.9200006
       objectReference: {fileID: 0}
     - target: {fileID: 6343057381401219855, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.482927
+      value: 7.859723
       objectReference: {fileID: 0}
     - target: {fileID: 6343057381401219855, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_LocalRotation.w
@@ -72892,15 +72898,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6343057381401219855, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6343057381401219855, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6343057381401219855, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6343057381401219855, guid: 3d23ee39269057e4498d2bb49f40aa51, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -83329,7 +83335,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 909140141433717464, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -33.330345
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 909140141433717464, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -83368,10 +83374,6 @@ PrefabInstance:
       value: GM
       objectReference: {fileID: 0}
     - target: {fileID: 5226610205309377161, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
-      propertyPath: playerDie
-      value: 
-      objectReference: {fileID: 8300000, guid: 56e0a1f72b3a50f42be1066bb48b737f, type: 3}
-    - target: {fileID: 5226610205309377161, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
       propertyPath: sfxSourceEnemy
       value: 
       objectReference: {fileID: 898274342}
@@ -83379,6 +83381,10 @@ PrefabInstance:
       propertyPath: sfxSourcePlayer
       value: 
       objectReference: {fileID: 1161327917}
+    - target: {fileID: 5226610205309377161, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
+      propertyPath: backgroundMusicBattle
+      value: 
+      objectReference: {fileID: 8300000, guid: 299a893118209f6498b1a3bebd282ff0, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -83407,5 +83413,4 @@ SceneRoots:
   - {fileID: 1830070196}
   - {fileID: 333423582}
   - {fileID: 1186954881}
-  - {fileID: 1939551511}
   - {fileID: 7702017658528719230}

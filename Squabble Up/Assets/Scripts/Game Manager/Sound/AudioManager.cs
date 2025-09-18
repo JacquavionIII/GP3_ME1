@@ -9,8 +9,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource sfxSourceEnemy;
 
     [Header("Audio Clips")]
-    public AudioClip backgroundMusicNormal;
-    public AudioClip backgroundMusicBattle;
+    public AudioClip bgmNormal;
+    public AudioClip bgmBattle;
+    public AudioClip bgmWin;
     public AudioClip enemygrunt;
     public AudioClip enemyAttack;
     public AudioClip enemyFoundPlayer;
@@ -30,6 +31,7 @@ public class AudioManager : MonoBehaviour
 
     public static AudioManager instance;
     public bool notInBattle = true; // Set this to false when in battle
+    public bool gameIsWon = false;
 
     public void Awake()
     {
@@ -49,12 +51,18 @@ public class AudioManager : MonoBehaviour
     {
         if (notInBattle == true)
         {
-            musicSource.clip = backgroundMusicNormal;
+            musicSource.clip = bgmNormal;
             musicSource.Play();
         }
         else if (notInBattle == false)
         {
-            musicSource.clip = backgroundMusicBattle;
+            musicSource.clip = bgmBattle;
+            musicSource.Play();
+        }
+
+        if (gameIsWon == true)
+        {
+            musicSource.clip = bgmWin;
             musicSource.Play();
         }
     }

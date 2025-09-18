@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     public const int MAX_RESPAWNS = 4;
     private bool gameEnded = false;
 
+    [Header("Other Stuff")]
+    AudioManager audioManager;
+
     void Start()
     {
         // Find both players if not assigned
@@ -84,12 +87,13 @@ public class GameManager : MonoBehaviour
             Player2Wins();
         }
     }
-    
+
     void Player1Wins()
     {
         gameEnded = true;
         print("Player 1 has won");
         SceneManager.LoadScene("P1Wins");
+        audioManager.gameIsWon = true;
     }
 
     void Player2Wins()
@@ -97,6 +101,7 @@ public class GameManager : MonoBehaviour
         gameEnded = true;
         print("Player 2 has won");
         SceneManager.LoadScene("P2Wins");
+        audioManager.gameIsWon = true;
     }
 
     void OnDestroy()

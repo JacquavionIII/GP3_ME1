@@ -107,6 +107,11 @@ public class Player : NetworkBehaviour
         playerCount++;
         playerNumber = playerCount;
 
+        // if (isP2 = true && isP1 = false) 
+        // {
+        //     Display.Activate();
+        // } //trying to make the game switch displays whenever the player spawns on the 
+
         // Initialize health
         currentHealth = maxHealth;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);

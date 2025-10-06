@@ -5843,7 +5843,6 @@ GameObject:
   - component: {fileID: 4911448679624063844}
   - component: {fileID: 3484473594167770777}
   - component: {fileID: 2850303832328548663}
-  - component: {fileID: 2634837547206703217}
   m_Layer: 6
   m_Name: Player Cam
   m_TagString: MainCamera
@@ -6005,35 +6004,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ffddca41478cc4aa2272e9545b488c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   player1: 0
   player2: 0
   player1UILayer: 8
   player2UILayer: 9
---- !u!114 &2634837547206703217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2570253886216005661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 0
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 0
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
 --- !u!1 &2713050131699009109
 GameObject:
   m_ObjectHideFlags: 0
@@ -7344,6 +7319,7 @@ MonoBehaviour:
     m_Bits: 8
   enemy: {fileID: 770452404725823086, guid: 2c1dc79fbb3cd134ea12bc4cac846cef, type: 3}
   lightAttackVFX: {fileID: 7681968501206105321}
+  playerCamera: {fileID: 7327798361399010658}
   cameraTransform: {fileID: 4693072073627540239}
   mouseSensitivity: 0.1
   controllerSensitivity: 200
@@ -7359,6 +7335,7 @@ MonoBehaviour:
   deathScreen1: {fileID: 897860508178743241}
   deathScreen2: {fileID: 3323675745107348638}
   respawnDelay: 2
+  isLocalPlayer: 0
   rb: {fileID: 6250027764735096754}
   anim: {fileID: 2380173876463306523}
   spawnPoint: {fileID: 6214950351767755552, guid: 8903c7beff397874bb78c67b4cebaa81, type: 3}

@@ -26,6 +26,7 @@ public class Player : NetworkBehaviour
     public Transform lightAttackVFX;          // Reference to the light attack VFX transform
 
     [Header("Camera Settings")]
+    public Camera playerCamera;
     public Transform cameraTransform;
     [SerializeField] private float mouseSensitivity = 0.1f;
     [SerializeField] private float controllerSensitivity = 200f;
@@ -50,6 +51,7 @@ public class Player : NetworkBehaviour
     public float respawnDelay = 2f; // Delay before respawning
     private bool deathTriggered = false; // Prevent multiple death triggers cause this lil turd went up to 57 deaths after dying like three times
     public event Action<int> OnPlayerDeath; // so that the game manager can pick up whenever the player dies and also uses the player number
+    public bool isLocalPlayer = false;
 
     [Header("Components")] //cause i genuinely dont know what to call this part and its annoying that its not fucking organised
     public Rigidbody rb;
@@ -81,7 +83,14 @@ public class Player : NetworkBehaviour
             GetComponent<PlayerInput>().enabled = false; // Disable PlayerInput for non-local players
             anim.enabled = false; // Disable Animator for non-local players
             this.enabled = false; // Disable this script for non-local players
+            playerCamera.enabled = false; // this is for my camera functionality and to check if this little bastard of a player is the owner of this device
         }
+
+        if (playerCamera != null) //Using this method to help seperate my displays. ALWAYS read the Unity API.
+        {
+            playerCamera.enabled = true;
+            isLocalPlayer = true;
+        } //You better work you whore
 
     }
 
@@ -106,6 +115,11 @@ public class Player : NetworkBehaviour
         }
         playerCount++;
         playerNumber = playerCount;
+
+        if (playerCamera != null & !isLocalPlayer)
+        {
+            playerCamera.enabled = false;
+        }
 
         // if (isP2 = true && isP1 = false) 
         // {

@@ -75,6 +75,9 @@ public class Player : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        playerCamera = GetComponentInChildren<Camera>(); // Get the camera component from children
+        anim = GetComponentInChildren<Animator>(); // Get the animator component from children
+
         Awake();
         if (!IsOwner)
         {

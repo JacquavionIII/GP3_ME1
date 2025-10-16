@@ -15,10 +15,17 @@ public class CameraManager : NetworkBehaviour
     private string player1CanvasTag = "Player1UI";  // Tag for Player 1's UI canvas
     private string player2CanvasTag = "Player2UI";  // Tag for Player 2's UI canvas
 
-    // protected override void OnStartAuthority()
-    // {
-    //     enabled = true; // Enable this script only for the local player's camera
-    // } 
+    public override void OnNetworkSpawn()
+    {
+
+    //     enabled = true; // Enable this script only for the local player's camera //painful attempts at fixing this camera bs
+        if (!IsOwner)
+        {
+            cam.enabled = false; // Disable the camera for non-owners
+            player2 = true;
+            return;
+        }
+    } 
 
     void Awake()
     {

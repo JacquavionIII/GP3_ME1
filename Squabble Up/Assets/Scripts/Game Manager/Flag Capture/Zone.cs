@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Unity.Netcode;
 
-public class Zone : NetworkBehaviour
+public class Zone : MonoBehaviour
 {
     [Header("Measure")]
     public int zoneCaptureCount = 0;

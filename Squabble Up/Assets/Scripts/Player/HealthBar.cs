@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
-public class HealthBar : NetworkBehaviour
+public class HealthBar : MonoBehaviour
 {
     [Header("Health Bar Settings")]
     public Image healthBar;

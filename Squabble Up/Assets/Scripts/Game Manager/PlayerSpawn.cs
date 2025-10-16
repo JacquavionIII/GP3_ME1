@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
 
-public class PlayerSpawn : NetworkBehaviour
+public class PlayerSpawn : MonoBehaviour
 {
     public Transform[] SpawnPoints;
     private int playerCount;

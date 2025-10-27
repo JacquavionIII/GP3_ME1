@@ -13,12 +13,12 @@ public class ConnectUIScript : MonoBehaviour
         clientButton.onClick.AddListener(clientButtonOnClick);
     }
 
-    private void hostButtonOnClick()
+    public void hostButtonOnClick()
     {
         NetworkManager.Singleton.StartHost();
     }
 
-    private void clientButtonOnClick()
+    public void clientButtonOnClick()
     {
         NetworkManager.Singleton.StartClient();
     }

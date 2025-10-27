@@ -61,7 +61,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -1008774840088713377}
-    m_Position: {x: 350, y: 200, z: 0}
+    m_Position: {x: 330, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8577273413356514400}
     m_Position: {x: 340, y: 100, z: 0}
@@ -82,7 +82,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Testing Cub
+  m_Name: Cube Idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

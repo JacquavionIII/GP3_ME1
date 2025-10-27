@@ -5,22 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main Menu.unity
     guid: 7e81e09f7510de34db7de18f2b3a6e18
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Explain.unity
     guid: 0d3b6a038474fa742b98430c8cd40565
   - enabled: 1
     path: Assets/Scenes/Capture The Flag.unity
     guid: fa352dccd98796349a2e13d4d690a0cf
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Death Scene.unity
     guid: 5a2b3d1b52aaa944a979eabdaf8613d9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/P1Wins.unity
     guid: 4966ad836e66450468c8d51d04eeeaad
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/P2Wins.unity
     guid: d2db81a32dd458d418e757f150481d87
   m_configObjects:

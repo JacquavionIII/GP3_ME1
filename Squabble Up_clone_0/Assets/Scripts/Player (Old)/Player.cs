@@ -320,22 +320,26 @@ public class Player : NetworkBehaviour
 
         if (followUP1 == true)
         {
-            anim.SetBool("isAttacking", true);
+            anim.SetBool("hit2", true);
+            anim.SetBool("isAttacking", false);
         }
 
         if (followUP2 == true)
         {
-            anim.SetBool("isAttacking", true);
+            anim.SetBool("hit3", true);
+            anim.SetBool("hit2", false);
         }
 
         if (followUP3 == true)
         {
-            anim.SetBool("isAttacking", true);
+            anim.SetBool("hit4", true);
+            anim.SetBool("hit3", false);
         }
         
         if (finisher == true)
         {
-            anim.SetBool("isAttacking", true);
+            anim.SetBool("finalhit", true);
+            anim.SetBool("hit4", false);
         }
     }
 

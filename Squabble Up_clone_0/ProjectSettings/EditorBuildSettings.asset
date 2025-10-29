@@ -23,6 +23,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/P2Wins.unity
     guid: d2db81a32dd458d418e757f150481d87
+  - enabled: 1
+    path: Assets/Scenes/Final/PvPMode.unity
+    guid: 8cb1d31e4bcf69244aff0dcc0fbb7fd3
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 99f9c9493070a9d4c979a8fec7c5a8d3, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 17ffb0b548ed24846a3a4119dee4df63, type: 2}

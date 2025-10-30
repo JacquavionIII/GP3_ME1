@@ -49,14 +49,23 @@ public class Player : NetworkBehaviour
     private bool isRespawning = false;
     private float respawnTimer = 0f;
     public float respawnDelay = 2f; // Delay before respawning
-    private bool deathTriggered = false; // Prevent multiple death triggers cause this lil turd went up to 57 deaths after dying like three times
+    private bool deathTriggered = false; // Prevent multiple death triggers cause this lil turd went up to 57 deaths after dying
     public event Action<int> OnPlayerDeath; // so that the game manager can pick up whenever the player dies and also uses the player number
     public bool isLocalPlayer = false;
 
     [Header("Combo Shenanigans")]
-    public int lightATKInput = 0;
-    public float LIGHTATKDowntime = 0.3f;
-    public bool followUP1, followUP2, followUP3, finisher;
+    public int comboLevel = 0; //There's levels to the combo string
+    public float inputWindow = 3f; //time frame for when the player can make an input for the combo
+    public float comboResetTime = 2f; //The time before the whole combo resets
+    private float lastAttackTime = 0f; //time since the last attack for the combo
+    private bool canAcceptInput = true; //this stops the player from spamming like a fucking turd, goddamn button mashing bastards
+    public float inputCooldown = 0.3f; //the minimun time between attacks
+
+    // Network variables for combo state
+    private NetworkVariable<int> networkComboStage = new NetworkVariable<int>(0);
+    private NetworkVariable<bool> networkIsAttacking = new NetworkVariable<bool>(false);
+    //you could never pay enough fucking money to make a combo system again, this is Satan's work ong
+
 
     [Header("Components")] //cause i genuinely dont know what to call this part and its annoying that its not fucking organised
     public Rigidbody rb;
@@ -80,32 +89,39 @@ public class Player : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        //moving these two here since it'll be needed when the player spawns in
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+
         playerCamera = GetComponentInChildren<Camera>(); // Get the camera component from children
         anim = GetComponentInChildren<Animator>(); // Get the animator component from children
 
-        Awake();
         if (!IsOwner)
         {
             // Disable components for non-local players
             rb.isKinematic = true; // Make Rigidbody kinematic for non-local players
             GetComponent<PlayerInput>().enabled = false; // Disable PlayerInput for non-local players
-            anim.enabled = false; // Disable Animator for non-local players
+
             this.enabled = false; // Disable this script for non-local players
-            playerCamera.enabled = false; // this is for my camera functionality and to check if this little bastard of a player is the owner of this device
+
+            if (playerCamera != null)
+            {
+                playerCamera.enabled = false; // this is for my camera functionality and to check if this little bastard of a player is the owner of this device
+            }
+            return;
         }
+
+        // Subscribe to network variable changes
+        networkComboStage.OnValueChanged += OnComboStageChanged;
+        networkIsAttacking.OnValueChanged += OnIsAttackingChanged;
+        
+        isLocalPlayer = true; // Mark this player as the local player
 
         if (playerCamera != null) //Using this method to help seperate my displays. ALWAYS read the Unity API.
         {
             playerCamera.enabled = true;
             isLocalPlayer = true;
         } //You better work you whore
-
-    }
-
-    void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
 
         //To assign player tags and shit, im starting to get fucking annyed with this bs in the fucking background
         if (playerCount % 2 == 0)
@@ -143,6 +159,26 @@ public class Player : NetworkBehaviour
         lookAction = playerInput.actions["Look"];
         jumpAction = playerInput.actions["Jump"];
         attackAction = playerInput.actions["Attack"];
+    }
+
+    void Awake()
+    {
+        //Only keep absolutely essential non-network initialization here
+        //For example, getting component references that don't depend on network state
+        rb = GetComponent<Rigidbody>();
+        //Don't do player numbering or input setup here  
+        //hopefulyy my animations will display across screens 
+    }
+
+    private void OnComboStageChanged(int oldValue, int newValue)
+    {
+        comboLevel = newValue;
+        // You can add visual/audio feedback for combo changes here
+    }
+
+    private void OnIsAttackingChanged(bool oldValue, bool newValue)
+    {
+        // Sync attack state if needed
     }
 
     void OnEnable()     // Subscribe to input actions when the script is enabled
@@ -199,82 +235,95 @@ public class Player : NetworkBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (!context.performed || !canAcceptInput || !IsOwner)
         {
-            // Trigger light attack animation
-            anim.SetBool("isAttacking", true);
-
-            // Show light attack VFX
-            if (lightAttackVFX != null)
-            {
-                lightAttackVFX.gameObject.SetActive(true);
-                Invoke(nameof(DisableLightAttackVFX), 0.5f); // Adjust delay as needed
-            }
-
-            // Check if enemy is in range and apply damage
-            if (enemy != null)
-            {
-                float distanceToEnemy = Vector3.Distance(lightAttackVFX.position, enemy.transform.position);
-
-                if (distanceToEnemy <= 2f) // Assuming 2 units is the attack range
-                {
-                    enemy.TakeDamage(10); // Doing damage to enemy
-                }
-            }
-
-            lightATKInput++;
+            return;
         }
 
-        if (context.canceled)
+        float timeSinceLastAttack = Time.time - lastAttackTime; //checking if it's within the combo window
+
+        if (timeSinceLastAttack > comboResetTime)
         {
-            LIGHTATKDowntime -= Time.deltaTime;
-            LIGHTATKDowntime--;
-            if (LIGHTATKDowntime <= 0f)
-            {
-                lightATKInput = 0;
-                LIGHTATKDowntime = 0.3f; //be very fucking careful cause with this logic, then this little shit might reset itself after the first combo drop.
-            }
+            comboLevel = 0; //reset combo if too much time has passed
         }
 
-        if (lightATKInput >= 2)
-        {
-            LIGHTATKDowntime = 0.3f;
-            followUP1 = true;
-        }
+        // to advance the combo level
+        comboLevel++;
+        lastAttackTime = Time.time;
 
-        if (lightATKInput >= 3)
-        {
-            LIGHTATKDowntime = 0.3f;
-            followUP2 = true;
-        }
+        StartCoroutine(InputCooldownCoroutine()); //Start input cooldown, cause we dont want those whackass button mashers to have a winning chance lol
 
-        if (lightATKInput >= 4)
-        {
-            LIGHTATKDowntime = 0.3f;
-            followUP3 = true;
-        }
+        HandleComboAttack(); //Handles the combo logic
 
-        if (lightATKInput >= 5)
+        if (IsServer) //syncs this over the network
         {
-            LIGHTATKDowntime = 0.3f;
-            finisher = true;
-            lightATKInput = 0;
+            networkComboStage.Value = comboLevel;
+            networkIsAttacking.Value = true;
         }
         //Idea, maybe make a counter that increases every time you press a button, then it resets after a certain interval.
         //So maybe I should go fuck myself cause this a lot of bullshit lol
+
     }
 
-    // public void ComboCheck()
-    // {
-    //     if (lightATKInput >= 1)
-    //     {
-    //         lightATK1 = true;
-    //         if (lightATK1 == true && )
-    //         {
-                
-    //         }
-    //     }
-    // }
+    private void HandleComboAttack()
+    {
+        // Trigger appropriate animation based on combo stage
+        switch (comboLevel)
+        {
+            case 1:
+                anim.SetBool("isAttacking", true);
+                Debug.Log("Combo: First Attack");
+                break;
+            case 2:
+                anim.SetBool("hit2", true);
+                Debug.Log("Combo: Second Attack");
+                break;
+            case 3:
+                anim.SetBool("hit3", true);
+                Debug.Log("Combo: Third Attack");
+                break;
+            case 4:
+                anim.SetBool("hit4", true);
+                Debug.Log("Combo: Fourth Attack");
+                break;
+            case 5:
+                anim.SetBool("finalhit", true);
+                Debug.Log("Combo: Finisher!");
+                // Reset combo after finisher
+                comboLevel = 0;
+                if (IsServer) networkComboStage.Value = 0;
+                break;
+            default: // Safety reset
+                comboLevel = 0;
+                if (IsServer) networkComboStage.Value = 0;
+                break;
+        }
+
+        // Show light attack VFX
+        if (lightAttackVFX != null)
+        {
+            lightAttackVFX.gameObject.SetActive(true);
+            Invoke(nameof(DisableLightAttackVFX), 0.5f); // Adjust delay as needed
+        }
+
+        // Check if enemy is in range and apply damage
+        if (enemy != null)
+        {
+            float distanceToEnemy = Vector3.Distance(lightAttackVFX.position, enemy.transform.position);
+
+            if (distanceToEnemy <= 2f) // Assuming 2 units is the attack range
+            {
+                enemy.TakeDamage(10 + (comboLevel * 2)); // Doing damage to enemy
+            }
+        }
+    }
+    
+    private System.Collections.IEnumerator InputCooldownCoroutine()
+    {
+        canAcceptInput = false;
+        yield return new WaitForSeconds(inputCooldown);
+        canAcceptInput = true;
+    }
 
     private void DisableLightAttackVFX()
     {
@@ -282,6 +331,11 @@ public class Player : NetworkBehaviour
         {
             lightAttackVFX.gameObject.SetActive(false);
             anim.SetBool("isAttacking", false);
+        }
+
+        if (IsServer) // Reset attacking state on the network
+        {
+            networkIsAttacking.Value = false;
         }
         
     }
@@ -291,6 +345,14 @@ public class Player : NetworkBehaviour
         if (!IsOwner)
         {
             return; // Ensure only the local player processes input and movement
+        }
+
+        // Combo reset timer
+        if (comboLevel > 0 && (Time.time - lastAttackTime) > comboResetTime)
+        {
+            comboLevel = 0;
+            if (IsServer) networkComboStage.Value = 0;
+            Debug.Log("Combo Reset");
         }
 
         // Groundcheck lol
@@ -316,30 +378,6 @@ public class Player : NetworkBehaviour
                 isRespawning = false;
                 respawnTimer = 0f;
             }
-        }
-
-        if (followUP1 == true)
-        {
-            anim.SetBool("hit2", true);
-            anim.SetBool("isAttacking", false);
-        }
-
-        if (followUP2 == true)
-        {
-            anim.SetBool("hit3", true);
-            anim.SetBool("hit2", false);
-        }
-
-        if (followUP3 == true)
-        {
-            anim.SetBool("hit4", true);
-            anim.SetBool("hit3", false);
-        }
-        
-        if (finisher == true)
-        {
-            anim.SetBool("finalhit", true);
-            anim.SetBool("hit4", false);
         }
     }
 

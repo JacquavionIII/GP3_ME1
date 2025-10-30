@@ -7382,6 +7382,15 @@ MonoBehaviour:
   deathScreen2: {fileID: 3323675745107348638}
   respawnDelay: 2
   isLocalPlayer: 0
+  lightATKInput: 0
+  LIGHTATKDowntime: 0.3
+  followUP1: 0
+  followUP2: 0
+  followUP3: 0
+  finisher: 0
+  comboStage: 0
+  maxComboStage: 4
+  comboWindow: 0.6
   rb: {fileID: 6250027764735096754}
   anim: {fileID: 2380173876463306523}
   spawnPoint: {fileID: 6214950351767755552, guid: 8903c7beff397874bb78c67b4cebaa81, type: 3}
@@ -8649,6 +8658,7 @@ GameObject:
   - component: {fileID: 9089748913259497861}
   - component: {fileID: 2380173876463306523}
   - component: {fileID: 3973340649866010865}
+  - component: {fileID: 7600816912731424258}
   m_Layer: 6
   m_Name: Player GFX
   m_TagString: Untagged
@@ -8705,6 +8715,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 538a0bf41197775429f8b8632d074ef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 2380173876463306523}
+--- !u!114 &7600816912731424258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8574542032021365116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1

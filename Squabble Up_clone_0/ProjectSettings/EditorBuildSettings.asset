@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/P2Wins.unity
     guid: d2db81a32dd458d418e757f150481d87
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Final/PvPMode.unity
     guid: 8cb1d31e4bcf69244aff0dcc0fbb7fd3
   m_configObjects:

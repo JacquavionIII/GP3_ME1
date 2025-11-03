@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2519925360869570339}
   - component: {fileID: 1654215888768678282}
   - component: {fileID: 8743138584874235870}
+  - component: {fileID: 7496408316622328382}
   m_Layer: 0
   m_Name: Multiplayer Spawn
   m_TagString: Untagged
@@ -135,3 +136,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hostButton: {fileID: 0}
   clientButton: {fileID: 0}
+  lanDiscovery: {fileID: 7496408316622328382}
+--- !u!114 &7496408316622328382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2805719413308446433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10b014e26be7a7c4db364072667412ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  broadcastPort: 47777
+  broadcastMessage: NGO_HOST_HERE
+  detectedHostIP: 

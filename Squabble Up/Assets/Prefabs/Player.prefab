@@ -6985,6 +6985,7 @@ GameObject:
   - component: {fileID: 4506272980831289967}
   - component: {fileID: 1738712966507235820}
   - component: {fileID: 285107663198265475}
+  - component: {fileID: 2369018471562426624}
   - component: {fileID: 7136400481591658326}
   m_Layer: 6
   m_Name: Player
@@ -7223,7 +7224,19 @@ MonoBehaviour:
     m_ActionId: b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba
     m_ActionName: 'Player/Next[/Keyboard/2]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5353387631313361846}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 641cd816-40e6-41b4-8c3d-04687c349290
     m_ActionName: 'Player/Sprint[/Keyboard/leftShift]'
   - m_PersistentCalls:
@@ -7266,6 +7279,70 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2369018471562426624}
+        m_TargetAssemblyTypeName: Abilities, Assembly-CSharp
+        m_MethodName: OnHeal
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 21ab1fd1-0000-4d29-a7ef-14adbdf90ae6
+    m_ActionName: 'Player/Heal[/Keyboard/1]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2369018471562426624}
+        m_TargetAssemblyTypeName: Abilities, Assembly-CSharp
+        m_MethodName: OnThunder
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a51cd1fb-b0ee-4275-ae10-6203ead2047b
+    m_ActionName: 'Player/Thunder[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2369018471562426624}
+        m_TargetAssemblyTypeName: Abilities, Assembly-CSharp
+        m_MethodName: OnBurn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1d40bebd-bfa5-4425-b2bd-a803e58c7bf3
+    m_ActionName: 'Player/Burn[/Keyboard/3]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2369018471562426624}
+        m_TargetAssemblyTypeName: Abilities, Assembly-CSharp
+        m_MethodName: OnFreeze
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b0aa5d7b-7e7f-48e6-9f2f-15b8a7d18ba2
+    m_ActionName: 'Player/Freeze[/Keyboard/4]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -7382,15 +7459,10 @@ MonoBehaviour:
   deathScreen2: {fileID: 3323675745107348638}
   respawnDelay: 2
   isLocalPlayer: 0
-  lightATKInput: 0
-  LIGHTATKDowntime: 0.3
-  followUP1: 0
-  followUP2: 0
-  followUP3: 0
-  finisher: 0
-  comboStage: 0
-  maxComboStage: 4
-  comboWindow: 0.6
+  comboLevel: 0
+  inputWindow: 3
+  comboResetTime: 2
+  inputCooldown: 0.3
   rb: {fileID: 6250027764735096754}
   anim: {fileID: 2380173876463306523}
   spawnPoint: {fileID: 6214950351767755552, guid: 8903c7beff397874bb78c67b4cebaa81, type: 3}
@@ -7426,6 +7498,85 @@ MonoBehaviour:
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 96bc1f11-cabb-4127-9e4f-263fd0d5d0ac
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+--- !u!114 &2369018471562426624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353387631313361846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d1c75c04b8cb44c85f78ef5fb221ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  player: {fileID: 285107663198265475}
+  healVFX: {fileID: 0}
+  thunderVFX: {fileID: 0}
+  burnVFX: {fileID: 0}
+  freezeVFX: {fileID: 0}
+  healAmount: 20
+  healAbilityCooldown: 20
+  healAbilityCount: 2
+  healAblityUsed: 0
+  healDone: 0
+  thunderStunDuration: 2
+  thunderIntervals: 3
+  isShocked: 0
+  thunderIntervalDelay: 3
+  thunderAbilityCooldown: 20
+  thunderAbilityCount: 2
+  thunderAblityUsed: 0
+  thunderDone: 0
+  burnDuration: 10
+  burnDamagePerSecond: 2
+  burnAbilityCooldown: 20
+  burnAbilityCount: 2
+  burnAblityUsed: 0
+  burnDone: 0
+  freezeDuration: 5
+  freezeDamage: 10
+  freezeAbilityCooldown: 20
+  freezeAbilityCount: 2
+  freezeAblityUsed: 0
+  freezeDone: 0
+  healAction:
+    m_Name: Heal
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 3c334433-f4b3-4c2e-b93f-cd0dcd77e4c5
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  thunderAction:
+    m_Name: Thunder
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 3b3b1905-1bc0-4b23-a2a0-f51dfbfbefc4
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  burnAction:
+    m_Name: Burn
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: c7ece02e-f7a8-4b5a-9803-1416e4ab660c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  freezeAction:
+    m_Name: Freeze
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: ecf2ff0d-9ede-4b1c-af9e-3d184dadcdd0
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []

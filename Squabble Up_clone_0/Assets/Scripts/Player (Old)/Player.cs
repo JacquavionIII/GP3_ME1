@@ -78,6 +78,7 @@ public class Player : NetworkBehaviour
     private bool isGrounded;
     private float camRotationX;             // Vertical camera rotation
     public Transform spawnPoint;            //Spawn Point
+    private bool controlsEnabled = true;
 
     [Header("Input Actions")]
     public InputAction moveAction;         // Input action for movement
@@ -369,7 +370,7 @@ public class Player : NetworkBehaviour
         }
 
         // Groundcheck lol
-            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
 
         // Reset vertical velocity if grounded and falling
         if (isGrounded && velocity.y < 0)
@@ -392,6 +393,36 @@ public class Player : NetworkBehaviour
                 respawnTimer = 0f;
             }
         }
+    }
+
+    public void SetControlsEnabled(bool enabled)
+    {
+        controlsEnabled = enabled;
+
+        // disable/enable the input actions (safe if they are already initialized)
+        if (moveAction != null) { if (enabled) moveAction.Enable(); else moveAction.Disable(); }
+        if (lookAction != null) { if (enabled) lookAction.Enable(); else lookAction.Disable(); }
+        if (jumpAction != null) { if (enabled) jumpAction.Enable(); else jumpAction.Disable(); }
+        if (attackAction != null) { if (enabled) attackAction.Enable(); else attackAction.Disable(); }
+
+        // optionally stop physics movement while disabled
+        if (rb != null) rb.isKinematic = !enabled;
+
+        // stop accepting combo input
+        canAcceptInput = enabled;
+    }
+
+    public void DisableControls(float seconds)
+    {
+        if (!IsOwner) return; // only affect local owner
+        StartCoroutine(DisableControlsCoroutine(seconds));
+    }
+    
+    private System.Collections.IEnumerator DisableControlsCoroutine(float seconds)
+    {
+        SetControlsEnabled(false);
+        yield return new WaitForSeconds(seconds);
+        SetControlsEnabled(true);
     }
 
     void FixedUpdate()

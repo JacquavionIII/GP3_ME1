@@ -85926,30 +85926,63 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2996676116360365221, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 7702017658528719234}
   m_SourcePrefab: {fileID: 100100000, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
 --- !u!114 &7702017658528719231 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6237908002870959516, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
   m_PrefabInstance: {fileID: 7702017658528719230}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 7702017658528719232}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cb97c29d2a5662479ed591a07a463a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7702017658528719232 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2996676116360365221, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
+  m_PrefabInstance: {fileID: 7702017658528719230}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7702017658528719233 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5226610205309377161, guid: f51b9361d2ea52e4a8008791ee819c5f, type: 3}
   m_PrefabInstance: {fileID: 7702017658528719230}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 7702017658528719232}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35f00ce7e0c28ad408d08441d6084b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7702017658528719234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7702017658528719232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1265703297
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

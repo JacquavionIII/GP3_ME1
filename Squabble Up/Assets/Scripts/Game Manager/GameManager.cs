@@ -15,7 +15,7 @@ public class GameManager : NetworkBehaviour
     [Header("Respawn Stuff")]
     public int p1RespawnCount = 0;
     public int p2RespawnCount = 0;
-    public const int MAX_RESPAWNS = 4;
+    public const int MAX_RESPAWNS = 3;
     private bool gameEnded = false;
 
     [Header("Other Stuff")]

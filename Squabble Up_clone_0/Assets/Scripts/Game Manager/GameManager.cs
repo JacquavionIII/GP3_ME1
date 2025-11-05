@@ -105,7 +105,7 @@ public class GameManager : NetworkBehaviour
         audioManager.gameIsWon = true;
     }
 
-    void OnDestroy()
+    public override void OnDestroy()
     {
         // Unsubscribe from the events to stop the memory from cooking itself, optimisation yay.... kill me now
         if (player1 != null) player1.OnPlayerDeath -= HandlePlayerDeath;

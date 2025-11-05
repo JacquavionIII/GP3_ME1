@@ -10,6 +10,8 @@ public class ConnectUIScript : MonoBehaviour
     [SerializeField] private Button clientButton;
     [SerializeField] private LanDiscovery lanDiscovery;
 
+    public Transform connectUI;
+
     private void Start()
     {
         hostButton.onClick.AddListener(hostButtonOnClick);
@@ -24,12 +26,13 @@ public class ConnectUIScript : MonoBehaviour
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected; //subscribing to know when the client connects
             CheckBeginOnline(); // Check if we can begin the online game especially if the host is count as P1
         }
+
     }
 
     public void clientButtonOnClick()
     {
         string ip;
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         // When testing in Unity multiplayer play mode, force localhost
         ip = "127.0.0.1";
 
@@ -68,5 +71,9 @@ public class ConnectUIScript : MonoBehaviour
     private void BeginOnline()
     {
         //initially this was going to be used to do a scene swap, so that you can go to the online scene but I'll consider that for later...
+        // Hide and lock the system cursor for gameplay
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        connectUI.gameObject.SetActive(false);
     }
 }

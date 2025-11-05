@@ -16091,6 +16091,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1434796842}
     - target: {fileID: 8743138584874235870, guid: 8903c7beff397874bb78c67b4cebaa81, type: 3}
+      propertyPath: connectUI
+      value: 
+      objectReference: {fileID: 4027425263948003673}
+    - target: {fileID: 8743138584874235870, guid: 8903c7beff397874bb78c67b4cebaa81, type: 3}
       propertyPath: hostButton
       value: 
       objectReference: {fileID: 289414025}
@@ -85831,6 +85835,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b7a87bf49b052148bc5194fd5d2c5f9, type: 3}
+--- !u!224 &4027425263948003673 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4548069847779494547, guid: 2b7a87bf49b052148bc5194fd5d2c5f9, type: 3}
+  m_PrefabInstance: {fileID: 4027425263948003672}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7702017658528719230
 PrefabInstance:
   m_ObjectHideFlags: 0

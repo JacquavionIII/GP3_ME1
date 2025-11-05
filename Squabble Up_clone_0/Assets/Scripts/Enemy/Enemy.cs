@@ -34,6 +34,13 @@ public class Enemy : NetworkBehaviour
     {
         //audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
+        
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        // Run setup when network objects are ready.
+
         // Hopefully the enemy will go and search for both "Player" and "Player2" tags
         players.Clear();
         foreach (var go in GameObject.FindGameObjectsWithTag("Player1"))

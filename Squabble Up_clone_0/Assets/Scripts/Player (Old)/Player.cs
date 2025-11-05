@@ -144,6 +144,19 @@ public class Player : NetworkBehaviour
             playerCamera.enabled = false;
         }
 
+        if (IsServer && IsClient)
+        {
+            gameObject.tag = "Player1";
+            isP1 = true;
+            isP2 = false;
+        }
+        else if (!IsServer && IsClient)
+        {
+            gameObject.tag = "Player2";
+            isP1 = false;
+            isP2 = true;
+        }
+
         // if (isP2 = true && isP1 = false) 
         // {
         //     Display.Activate();

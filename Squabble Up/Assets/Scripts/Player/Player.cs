@@ -52,6 +52,7 @@ public class Player : NetworkBehaviour
     private bool deathTriggered = false; // Prevent multiple death triggers cause this lil turd went up to 57 deaths after dying
     public event Action<int> OnPlayerDeath; // so that the game manager can pick up whenever the player dies and also uses the player number
     public bool isLocalPlayer = false;
+    public bool dmgBlock = false;
 
     [Header("Combo Shenanigans")]
     public int comboLevel = 0; //There's levels to the combo string
@@ -84,7 +85,8 @@ public class Player : NetworkBehaviour
     public InputAction moveAction;         // Input action for movement
     public InputAction lookAction;         // Input action for looking around
     public InputAction jumpAction;         // Input action for jumping
-    public InputAction attackAction;  // Input action for attack
+    public InputAction attackAction;       // Input action for attack
+    public InputAction blockAction;        // Input action for blocking
 
     //NetworkVariable<int> netHealth = new NetworkVariable<int>(); //this is used to sync health across the network, might not need it tho
 
@@ -173,6 +175,7 @@ public class Player : NetworkBehaviour
         lookAction = playerInput.actions["Look"];
         jumpAction = playerInput.actions["Jump"];
         attackAction = playerInput.actions["Attack"];
+        blockAction = playerInput.actions["Block"];
     }
 
     void Awake()
@@ -210,6 +213,9 @@ public class Player : NetworkBehaviour
 
         attackAction.Enable();
         attackAction.performed += OnAttack;
+
+        blockAction.Enable();
+        blockAction.performed += OnBlock;
     }
 
     void OnDisable()   // Unsubscribe from input actions when the script is disabled
@@ -223,6 +229,8 @@ public class Player : NetworkBehaviour
         jumpAction.performed -= OnJump;
 
         attackAction.performed -= OnAttack;
+
+        blockAction.performed -= OnBlock;
     }
 
     // Called whenever Move input changes
@@ -244,6 +252,20 @@ public class Player : NetworkBehaviour
             // Jump velocity based on physics equation
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             anim.SetBool("isJumping", true);
+        }
+    }
+
+    public void OnBlock(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            dmgBlock = true;
+            anim.SetBool("isBlocking", true);
+        }
+        else if (context.canceled)
+        {
+            dmgBlock = false;
+            anim.SetBool("isBlocking", false);
         }
     }
 
@@ -486,6 +508,11 @@ public class Player : NetworkBehaviour
         {
             Debug.Log("Player hit by enemy");
             TakeDamage(5); // Player takes damage when colliding with enemy
+
+            if (dmgBlock)
+            {
+                TakeDamage(0);
+            }
         }
 
         if (collision.gameObject.CompareTag("Player2") && isP1)
@@ -493,18 +520,28 @@ public class Player : NetworkBehaviour
             Debug.Log("P2 is chowing you dude");
             TakeDamage(15); // Player takes damage when colliding with enemy
 
+            if (dmgBlock)
+            {
+                TakeDamage(0);
+            }
+
         }
         else if (collision.gameObject.CompareTag("Player2") && isP2)
         {
             Debug.Log("P1 is frying you");
             TakeDamage(15); // Player takes damage when colliding with enemy
+
+            if (dmgBlock)
+            {
+                TakeDamage(0);
+            }
         }
 
         if (collision.gameObject.CompareTag("DeathFloor"))
-            {
-                Debug.Log("Player fell off the map and died like a bitch");
-                Death(); // Player dies instantly when hitting the death floor
-            }
+        {
+            Debug.Log("Player fell off the map and died like a bitch");
+            Death(); // Player dies instantly when hitting the death floor
+        }
     }
 
     public void Respawn(Vector3 spawnPoint) //fuck you respawn

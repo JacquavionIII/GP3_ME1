@@ -53,6 +53,7 @@ public class Player : NetworkBehaviour
     public event Action<int> OnPlayerDeath; // so that the game manager can pick up whenever the player dies and also uses the player number
     public bool isLocalPlayer = false;
     public bool dmgBlock = false;
+    public Transform dmgDisplay;
 
     [Header("Combo Shenanigans")]
     public int comboLevel = 0; //There's levels to the combo string
@@ -423,7 +424,6 @@ public class Player : NetworkBehaviour
 
         // disable/enable the input actions (safe if they are already initialized)
         if (moveAction != null) { if (enabled) moveAction.Enable(); else moveAction.Disable(); }
-        if (lookAction != null) { if (enabled) lookAction.Enable(); else lookAction.Disable(); }
         if (jumpAction != null) { if (enabled) jumpAction.Enable(); else jumpAction.Disable(); }
         if (attackAction != null) { if (enabled) attackAction.Enable(); else attackAction.Disable(); }
 
@@ -495,11 +495,18 @@ public class Player : NetworkBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        dmgDisplay.gameObject.SetActive(true);
+        Invoke(nameof(DisableDmgScreen), 0.5f);
 
         // Notify health bar of the change
         OnHealthChanged?.Invoke(currentHealth, maxHealth); //istg, ive been beefing with this for hours now, fuck code honestly...
 
         if (currentHealth <= 0) Invoke(nameof(Death), 0.5f);
+    }
+
+    public void DisableDmgScreen()
+    {
+        dmgDisplay.gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter(Collision collision)

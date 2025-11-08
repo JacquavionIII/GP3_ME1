@@ -25,6 +25,11 @@ public class ConnectUIScript : MonoBehaviour
             lanDiscovery.BroadcastHost(); // Thjis starts the broadcasting
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected; //subscribing to know when the client connects
             CheckBeginOnline(); // Check if we can begin the online game especially if the host is count as P1
+
+            // Hide and lock the system cursor for gameplay
+        // Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        connectUI.gameObject.SetActive(false);
         }
 
     }
@@ -52,6 +57,11 @@ public class ConnectUIScript : MonoBehaviour
         if (NetworkManager.Singleton.StartClient())
         {
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected; //subscribing to know when the client connects
+
+            // Hide and lock the system cursor for gameplay
+            // Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            connectUI.gameObject.SetActive(false);
         }
     }
 
@@ -71,9 +81,6 @@ public class ConnectUIScript : MonoBehaviour
     private void BeginOnline()
     {
         //initially this was going to be used to do a scene swap, so that you can go to the online scene but I'll consider that for later...
-        // Hide and lock the system cursor for gameplay
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        connectUI.gameObject.SetActive(false);
+        
     }
 }

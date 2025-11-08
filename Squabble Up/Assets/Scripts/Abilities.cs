@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.InputSystem;
 using Unity.Netcode;
 
@@ -36,6 +37,7 @@ public class Abilities : NetworkBehaviour
     public int burnAbilityCount = 2;
     public bool burnAblityUsed = false;
     public bool burnDone = false;
+    private Coroutine burnCoroutine;
 
     [Header("Freeze Ability Settings")]
     public float freezeDuration = 5f;
@@ -139,6 +141,7 @@ public class Abilities : NetworkBehaviour
             Invoke(nameof(DisableHealVFX), 2.0f); // Disable after 1 second
         }
         healAbilityCount--;
+        player.dmgDisplay.gameObject.SetActive(false);
     }
 
     private void DisableHealVFX()
@@ -208,20 +211,38 @@ public class Abilities : NetworkBehaviour
     public void BurnAbility()
     {
         // I want to decrease the enemy's health over time
+        if (burnAbilityCount <= 0 || burnAblityUsed) return;
         burnAblityUsed = true;
-        while (burnAblityUsed)
+        if (burnCoroutine != null)
         {
-            player.TakeDamage(burnDamagePerSecond);
+            StopCoroutine(burnCoroutine);
         }
+        burnCoroutine = StartCoroutine(BurnCoroutine(burnDuration));
         burnAbilityCount--;
+        
+    }
+
+    private IEnumerator BurnCoroutine(float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            // apply damage once per second
+            player.TakeDamage(burnDamagePerSecond);
+            yield return new WaitForSeconds(1f);
+            elapsed += 1f;
+        }
+
+        // done
         Invoke(nameof(DisableBurnVFX), burnDuration);
+        burnCoroutine = null;
     }
 
     public void DisableBurnVFX()
     {
         if (burnVFX != null)
         {
-            burnVFX.gameObject.SetActive(true);
+            burnVFX.gameObject.SetActive(false);
         }
         burnAblityUsed = false;
     }

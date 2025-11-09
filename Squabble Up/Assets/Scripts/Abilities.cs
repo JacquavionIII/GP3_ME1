@@ -12,6 +12,7 @@ public class Abilities : NetworkBehaviour
     public Transform thunderVFX;
     public Transform burnVFX;
     public Transform freezeVFX;
+    public Player opponent;
 
     [Header("Heal Ability Settings")]
     public float healAmount = 20f;
@@ -63,6 +64,42 @@ public class Abilities : NetworkBehaviour
         thunderAction = playerInput.actions["Thunder"];
         burnAction = playerInput.actions["Burn"];
         freezeAction = playerInput.actions["Freeze"];
+
+        FindOpponent();
+    }
+
+    private void FindOpponent()
+    {
+        if (!IsOwner)
+        {
+            return;
+        }
+
+        Player[] allPlayers = FindObjectsOfType<Player>();
+        foreach (Player p in allPlayers)
+        {
+            if (p != player && p.IsOwner == false) // This is the opponent
+            {
+                opponent = p;
+                Debug.Log($"Found opponent: {p.gameObject.name}, isP1: {p.isP1}, isP2: {p.isP2}");
+                break;
+            }
+        }
+        
+        // Alternative method using tags
+        if (opponent == null)
+        {
+            if (player.isP1)
+            {
+                GameObject p2Object = GameObject.FindGameObjectWithTag("Player2");
+                if (p2Object != null) opponent = p2Object.GetComponent<Player>();
+            }
+            else if (player.isP2)
+            {
+                GameObject p1Object = GameObject.FindGameObjectWithTag("Player1");
+                if (p1Object != null) opponent = p1Object.GetComponent<Player>();
+            }
+        }
     }
 
     public void Update()
@@ -127,6 +164,7 @@ public class Abilities : NetworkBehaviour
 
     public void OnHeal(InputAction.CallbackContext context)
     {
+        if (!context.performed || !IsOwner) return;
         Debug.Log("Heal ability activated!");
         HealAbility();
     }
@@ -155,42 +193,33 @@ public class Abilities : NetworkBehaviour
 
     public void OnThunder(InputAction.CallbackContext context)
     {
+        if (!context.performed || !IsOwner) return;
         Debug.Log("Thunder ability activated!");
         ThunderAbility();
     }
 
     public void ThunderAbility()
     {
+        if (opponent == null) 
+        {
+            FindOpponent();
+            if (opponent == null) return;
+        }
+    
         thunderAblityUsed = true;
-        // I want to stun the player momentarily and implement a stun animation
+    
+        // Show VFX on opponent
         if (thunderVFX != null)
         {
+            thunderVFX.position = opponent.transform.position;
             thunderVFX.gameObject.SetActive(true);
-            
         }
 
-        if (thunderAblityUsed && !isShocked && thunderIntervals == 3)
-        {
-            player.DisableControls(thunderStunDuration);
-            isShocked = true;
-        }
-
-        thunderIntervalDelay -= Time.deltaTime;
-        if (thunderIntervalDelay <= 0 && thunderIntervals > 0)
-        {
-            // Stun logic here
-            thunderIntervals--;
-            thunderIntervalDelay = 3f; // Reset delay for next interval
-        }
-
-        if (thunderIntervals == 0)
-        {
-            // Reset intervals for next use
-            thunderIntervals = 3;
-            thunderAbilityCount--;
-            Invoke(nameof(DisableThunderVFX), thunderStunDuration);
-        }
+        // Stun the opponent
+        opponent.DisableControls(thunderStunDuration);
+    
         thunderAbilityCount--;
+        Invoke(nameof(DisableThunderVFX), thunderStunDuration);
     }
 
     private void DisableThunderVFX()
@@ -204,6 +233,7 @@ public class Abilities : NetworkBehaviour
 
     public void OnBurn(InputAction.CallbackContext context)
     {
+        if (!context.performed || !IsOwner) return;
         Debug.Log("Burn ability activated!");
         BurnAbility();
     }
@@ -211,6 +241,13 @@ public class Abilities : NetworkBehaviour
     public void BurnAbility()
     {
         // I want to decrease the enemy's health over time
+
+        if (opponent == null)
+        {
+            FindOpponent();
+            if (opponent == null) return;
+        }
+        
         if (burnAbilityCount <= 0 || burnAblityUsed) return;
         burnAblityUsed = true;
         if (burnCoroutine != null)
@@ -218,6 +255,13 @@ public class Abilities : NetworkBehaviour
             StopCoroutine(burnCoroutine);
         }
         burnCoroutine = StartCoroutine(BurnCoroutine(burnDuration));
+
+        if (burnVFX != null)
+        {
+            burnVFX.position = opponent.transform.position;
+            burnVFX.gameObject.SetActive(true);
+        }
+        
         burnAbilityCount--;
         
     }
@@ -228,8 +272,8 @@ public class Abilities : NetworkBehaviour
         while (elapsed < duration)
         {
             // apply damage once per second
-            player.TakeDamage(burnDamagePerSecond);
-            yield return new WaitForSeconds(1f);
+            opponent.TakeDamage(burnDamagePerSecond);
+            yield return new WaitForSeconds(burnDuration);
             elapsed += 1f;
         }
 
@@ -249,6 +293,7 @@ public class Abilities : NetworkBehaviour
 
     public void OnFreeze(InputAction.CallbackContext context)
     {
+        if (!context.performed || !IsOwner) return;
         Debug.Log("Freeze ability activated!");
         FreezeAbility();
     }
@@ -256,8 +301,21 @@ public class Abilities : NetworkBehaviour
     public void FreezeAbility()
     {
         // I want to completely stop the enemy from moving for a few seconds and then and then damage them a bit.
-        player.DisableControls(freezeDuration);
-        player.TakeDamage(10);
+        if (opponent == null)
+        {
+            FindOpponent();
+            if (opponent == null) return;
+        }
+        
+        opponent.DisableControls(freezeDuration);
+        opponent.TakeDamage(10);
+
+        if (freezeVFX != null)
+        {
+            freezeVFX.position = opponent.transform.position;
+            freezeVFX.gameObject.SetActive(true);
+        }
+    
         freezeVFX.gameObject.SetActive(true);
         Invoke(nameof(DisableFreezeVFX), freezeDuration);
         freezeAbilityCount--;

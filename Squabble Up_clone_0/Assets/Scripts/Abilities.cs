@@ -8,6 +8,8 @@ public class Abilities : NetworkBehaviour
 {
     [Header("References")]
     public Player player;
+    public bool isPlayer1;
+    public bool isPlayer2;
     public Transform healVFX;
     public Transform thunderVFX;
     public Transform burnVFX;

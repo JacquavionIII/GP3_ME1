@@ -883,7 +883,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -16.6, y: 0}
+  m_AnchoredPosition: {x: -16.599998, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5366213136597719204
@@ -8179,6 +8179,7 @@ GameObject:
   - component: {fileID: 285107663198265475}
   - component: {fileID: 2369018471562426624}
   - component: {fileID: 7136400481591658326}
+  - component: {fileID: 3131310708589953389}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player1
@@ -8653,10 +8654,10 @@ MonoBehaviour:
   lightAttackVFX: {fileID: 7681968501206105321}
   playerCamera: {fileID: 7327798361399010658}
   cameraTransform: {fileID: 4693072073627540239}
-  mouseSensitivity: 0.1
+  mouseSensitivity: 0.001
   controllerSensitivity: 200
-  smoothTime: 0.05
-  minLookY: -13
+  smoothTime: 0.3
+  minLookY: -10
   maxLookY: 10
   maxHealth: 100
   death: 0
@@ -8736,6 +8737,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 285107663198265475}
+  isPlayer1: 0
+  isPlayer2: 0
   healVFX: {fileID: 7560245818940599079}
   thunderVFX: {fileID: 1230044576073051421}
   burnVFX: {fileID: 7663625363247942640}
@@ -8899,6 +8902,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3131310708589953389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353387631313361846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd6943cf0255fb24aa31cefdf4ef66a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  player: {fileID: 285107663198265475}
+  abilities: {fileID: 2369018471562426624}
+  healCD1: {fileID: 1686544723224495663}
+  healCD2: {fileID: 1437142002918872936}
+  healCDText1: {fileID: 7835534248324750809}
+  healCDText2: {fileID: 6041793785124960273}
+  thunderCD1: {fileID: 5832472649728133715}
+  thunderCD2: {fileID: 1174685523844796440}
+  thunderCDText1: {fileID: 8140717000814420964}
+  thunderCDText2: {fileID: 6499833931690494631}
+  burnCD1: {fileID: 281673561713613842}
+  burnCD2: {fileID: 1346760842424988122}
+  burnCDText1: {fileID: 190973070454060597}
+  burnCDText2: {fileID: 2698752595413795103}
+  freezeCD1: {fileID: 4375585800525148020}
+  freezeCD2: {fileID: 3296036933059781970}
+  freezeCDText1: {fileID: 1125015612765841303}
+  freezeCDText2: {fileID: 7973906776351023814}
 --- !u!1 &5534287053676456059
 GameObject:
   m_ObjectHideFlags: 0
@@ -9125,7 +9159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.0000017737893, y: -15.9}
+  m_AnchoredPosition: {x: -0.0000017737893, y: -15.900002}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3721366189573243839
@@ -10165,7 +10199,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.0000017737893, y: -15.9}
+  m_AnchoredPosition: {x: -0.0000017737893, y: -15.900002}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3538945370523310591
@@ -10281,7 +10315,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 15.1, y: 0}
+  m_AnchoredPosition: {x: 15.099998, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8264027291795366057
@@ -10588,7 +10622,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -16.6, y: 0}
+  m_AnchoredPosition: {x: -16.599998, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4528804708127909447
@@ -12093,7 +12127,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 15.1, y: 0}
+  m_AnchoredPosition: {x: 15.099998, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7667664935905789065

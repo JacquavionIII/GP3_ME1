@@ -15,7 +15,7 @@ public class GameManager : NetworkBehaviour
     [Header("Respawn Stuff")]
     public int p1RespawnCount = 0;
     public int p2RespawnCount = 0;
-    public const int MAX_RESPAWNS = 3;
+    public const int MAX_RESPAWNS = 2;
     private bool gameEnded = false;
 
     [Header("Other Stuff")]
@@ -46,7 +46,11 @@ public class GameManager : NetworkBehaviour
 
     void HandlePlayerDeath(int playerNumber)
     {
-        if (gameEnded) return;
+        if (gameEnded) 
+        {
+            Cursor.visible = true;
+            return;
+        }
 
         // Increment the respawn count for the player who died
         if (playerNumber == 1)
@@ -82,10 +86,12 @@ public class GameManager : NetworkBehaviour
         if (p1ZoneCount >= zoneWin)
         {
             Player1Wins();
+            Cursor.visible = true;
         }
         else if (p2ZoneCount >= zoneWin)
         {
             Player2Wins();
+            Cursor.visible = true;
         }
     }
 
@@ -95,6 +101,7 @@ public class GameManager : NetworkBehaviour
         print("Player 1 has won");
         SceneManager.LoadScene("P1Wins");
         audioManager.gameIsWon = true;
+        Cursor.visible = true;
     }
 
     void Player2Wins()

@@ -256,6 +256,17 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1035782074 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8606090403153861974, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
+  m_PrefabInstance: {fileID: 1585124160}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a51d317b50e14aa41ad127fa32953c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1585124160
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -377,6 +388,14 @@ PrefabInstance:
     - target: {fileID: 5312022635882304982, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254686820870701587, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1035782074}
+    - target: {fileID: 6254686820870701587, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGame
       objectReference: {fileID: 0}
     - target: {fileID: 7471145431077798283, guid: 39cfcad1177729a47b656e9f03ced886, type: 3}
       propertyPath: m_Name

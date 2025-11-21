@@ -63,11 +63,17 @@ public class Player : NetworkBehaviour
     private bool canAcceptInput = true; //this stops the player from spamming like a fucking turd, goddamn button mashing bastards
     public float inputCooldown = 0.3f; //the minimun time between attacks
 
+    [Header("Network Stuff")]
     // Network variables for combo state
     private NetworkVariable<int> networkComboStage = new NetworkVariable<int>(0);
     private NetworkVariable<bool> networkIsAttacking = new NetworkVariable<bool>(false);
     //you could never pay enough fucking money to make a combo system again, this is Satan's work ong
+    // Network-synced player number assigned by the server
+    private NetworkVariable<int> networkPlayerNumber = new NetworkVariable<int>(
+        0, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Server);
 
+    // Server-side counter used to assign player numbers (increment only on server)
+    private static int serverPlayerCount = 0;
 
     [Header("Components")] //cause i genuinely dont know what to call this part and its annoying that its not fucking organised
     public Rigidbody rb;
@@ -112,12 +118,12 @@ public class Player : NetworkBehaviour
             {
                 playerCamera.enabled = false; // this is for my camera functionality and to check if this little bastard of a player is the owner of this device
             }
-            return;
         }
 
         // Subscribe to network variable changes
         networkComboStage.OnValueChanged += OnComboStageChanged;
         networkIsAttacking.OnValueChanged += OnIsAttackingChanged;
+        networkPlayerNumber.OnValueChanged += OnNetworkPlayerNumberChanged;
         
         isLocalPlayer = true; // Mark this player as the local player
 
@@ -232,6 +238,11 @@ public class Player : NetworkBehaviour
         attackAction.performed -= OnAttack;
 
         blockAction.performed -= OnBlock;
+
+        // Unsubscribe network var handlers
+        networkComboStage.OnValueChanged -= OnComboStageChanged;
+        networkIsAttacking.OnValueChanged -= OnIsAttackingChanged;
+        networkPlayerNumber.OnValueChanged -= OnNetworkPlayerNumberChanged;
     }
 
     // Called whenever Move input changes
@@ -300,6 +311,22 @@ public class Player : NetworkBehaviour
         //Idea, maybe make a counter that increases every time you press a button, then it resets after a certain interval.
         //So maybe I should go fuck myself cause this a lot of bullshit lol
 
+    }
+
+    private void OnNetworkPlayerNumberChanged(int oldValue, int newValue)
+    {
+        playerNumber = newValue;
+        isP1 = (newValue == 1);
+        isP2 = (newValue == 2);
+
+        // Set tag for this object on all instances (this runs on everyone via the network change)
+        gameObject.tag = isP1 ? "Player1" : "Player2";
+
+        // // Optionally enable/disable UI per player here (owner-specific UI should check IsOwner)
+        // if (IsOwner)
+        // {
+        //     // example: enable local camera already handled elsewhere, but you can toggle displays here
+        // }
     }
 
     private void HandleComboAttack()
@@ -533,7 +560,7 @@ public class Player : NetworkBehaviour
             }
 
         }
-        else if (collision.gameObject.CompareTag("Player2") && isP2)
+        else if (collision.gameObject.CompareTag("Player1") && isP2)
         {
             Debug.Log("P1 is frying you");
             TakeDamage(15); // Player takes damage when colliding with enemy

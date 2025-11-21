@@ -11,7 +11,6 @@ public class Enemy : NetworkBehaviour
     public Transform player;
     public Transform attackVFX;
     public LayerMask whatIsGround, whatIsPlayer;
-    public int Health;
     public Animator anim;
 
     [Header("Patroling")]
@@ -27,43 +26,169 @@ public class Enemy : NetworkBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    [Header("Spawning")]
+    public float spawnCooldown = 2f; // Time before enemy starts chasing
+    private bool canChasePlayers = false;
+    private Vector3 originalSpawnPosition; // Store original position
+
     public List<Transform> players = new List<Transform>();
     AudioManager audioManager;
+
+    [Header("Network Stuff")] //things that need to be synced over the network
+    private NetworkVariable<int> networkHealth = new NetworkVariable<int>(100);
+    private NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
+    private NetworkVariable<Quaternion> networkRotation = new NetworkVariable<Quaternion>();
+    private NetworkVariable<bool> networkCanChase = new NetworkVariable<bool>(false);
 
     public void Awake()
     {
         //audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-
+        originalSpawnPosition = transform.position;
         
+    }
+
+    public int Health 
+    { 
+        get => networkHealth.Value; 
+        private set => networkHealth.Value = value; 
     }
 
     public override void OnNetworkSpawn()
     {
-        // Run setup when network objects are ready.
+        if (IsServer) // Only the server should handle the enemy logic otherwise it wont be streamlined with the other instances
+        {
 
-        // Hopefully the enemy will go and search for both "Player" and "Player2" tags
+            transform.position = originalSpawnPosition;
+            networkPosition.Value = originalSpawnPosition;
+
+            // Hopefully the enemy will go and search for both "Player" and "Player2" tags
+            
+            networkCanChase.Value = false; // Start with chase disabled
+            // cause these fucking bastards would swarm the player as they spawn
+
+            // Start cooldown coroutine
+            StartCoroutine(SpawnCooldown());
+
+            agent = GetComponent<NavMeshAgent>();
+
+            // Re-enable NavMeshAgent after position reset
+            if (agent != null)
+            {
+                agent.enabled = false; // Disable temporarily to warp position
+                agent.Warp(originalSpawnPosition);
+                agent.enabled = true;
+            }
+        }
+
+        // All clients subscribe to health changes
+        networkHealth.OnValueChanged += OnHealthChanged;
+        networkCanChase.OnValueChanged += OnChaseStateChanged;
+        
+        // Sync initial position/rotation
+        if (!IsServer)
+        {
+            transform.position = networkPosition.Value;
+            transform.rotation = networkRotation.Value;
+        }
+    }
+
+    private IEnumerator SpawnCooldown()
+    {
+        yield return new WaitForSeconds(spawnCooldown);
+        
+        // After cooldown, find players and enable chasing
+        FindAllPlayers();
+        networkCanChase.Value = true;
+    }
+
+    private void FindAllPlayers()
+    {
+        if (!IsServer) return;
+
         players.Clear();
-        foreach (var go in GameObject.FindGameObjectsWithTag("Player1"))
+        
+        // Find all player network objects more reliably
+        foreach (var playerObj in FindObjectsByType<Player>(FindObjectsSortMode.None))
         {
-            players.Add(go.transform);
+            if (playerObj.IsSpawned && playerObj.IsOwner)
+            {
+                players.Add(playerObj.transform);
+            }
         }
 
-        foreach (var go in GameObject.FindGameObjectsWithTag("Player2"))
+        // Fallback to tag-based search
+        if (players.Count == 0)
         {
-            players.Add(go.transform);
+            foreach (var go in GameObject.FindGameObjectsWithTag("Player1"))
+            {
+                players.Add(go.transform);
+            }
+            foreach (var go in GameObject.FindGameObjectsWithTag("Player2"))
+            {
+                players.Add(go.transform);
+            }
         }
 
-        // And here the lil bastard can choose to pick the closest player as its target
         if (players.Count > 0)
         {
-            player = players[0]; // there is a more techy way to do this but Im gonna tweak if i read more fucking code
-        } //ths is the bullshit i get for doing capture the flag in multiplayer... bloddy hell
+            player = GetClosestPlayer();
+        }
+    }
 
-        agent = GetComponent<NavMeshAgent>();
+    private void OnChaseStateChanged(bool oldValue, bool newValue)
+    {
+        canChasePlayers = newValue;
+    }
+
+    private Transform GetClosestPlayer()
+    {
+        Transform closestPlayer = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Transform playerTransform in players)
+        {
+            if (playerTransform == null) continue;
+            
+            float distance = Vector3.Distance(transform.position, playerTransform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestPlayer = playerTransform;
+            }
+        }
+
+        return closestPlayer;
     }
 
     void Update()
     {
+        if (!IsServer) return;
+
+        // Server updates network variables
+        if (Vector3.Distance(transform.position, networkPosition.Value) > 0.1f)
+        {
+            networkPosition.Value = transform.position;
+        }
+        
+        if (Quaternion.Angle(transform.rotation, networkRotation.Value) > 1f)
+        {
+            networkRotation.Value = transform.rotation;
+        }
+
+        // Only run AI logic if chase is enabled
+        if (!networkCanChase.Value)
+        {
+            // Just patrol during cooldown
+            Patroling();
+            return;
+        }
+
+        // Update player reference periodically
+        if (player == null || Time.frameCount % 60 == 0) // Update every ~1 second
+        {
+            FindAllPlayers();
+        }
+
         //In update to constantly check for the player
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
@@ -81,6 +206,32 @@ public class Enemy : NetworkBehaviour
         if (playerInAttackRange && playerInSightRange)
         {
             AttackPlayer();
+        }
+    }
+
+    void LateUpdate()
+    {
+        // Clients sync position/rotation from network variables
+        if (!IsServer)
+        {
+            if (Vector3.Distance(transform.position, networkPosition.Value) > 0.1f)
+            {
+                transform.position = Vector3.Lerp(transform.position, networkPosition.Value, Time.deltaTime * 10f);
+            }
+            
+            if (Quaternion.Angle(transform.rotation, networkRotation.Value) > 1f)
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation.Value, Time.deltaTime * 10f);
+            }
+        }
+    }
+
+    private void OnHealthChanged(int oldHealth, int newHealth)
+    {
+        // Handle health changes on all clients
+        if (newHealth <= 0)
+        {
+            HandleDeath();
         }
     }
 
@@ -119,6 +270,14 @@ public class Enemy : NetworkBehaviour
 
     private void ChasePlayer()
     {
+
+        // Don't chase if no valid player target
+        if (player == null) 
+        {
+            Patroling();
+            return;
+        }
+        
         anim.SetBool("isChasing", true);
         anim.SetBool("isPatrolling", false);
         anim.SetBool("isAttackingPlayer", false);
@@ -197,9 +356,27 @@ public class Enemy : NetworkBehaviour
             Invoke(nameof(DestroyEnemy), 0.5f);
         }
     }
+
+    private void HandleDeath()
+    {
+        anim.SetBool("isChasing", false);
+        anim.SetBool("isPatrolling", false);
+        anim.SetBool("isAttackingPlayer", false);
+        anim.SetBool("isDead", true);
+        
+        if (IsServer)
+        {
+            Invoke(nameof(DestroyEnemy), 0.5f);
+        }
+    }
     
     private void DestroyEnemy()
     {
         Destroy(gameObject);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        networkHealth.OnValueChanged -= OnHealthChanged;
     }
 }

@@ -17,29 +17,29 @@ public class AbilitiesUI : NetworkBehaviour
     public TextMeshProUGUI healCDText1;
     public TextMeshProUGUI healCDText2;
 
-    [Header("Thunder")]
-    public Transform thunderCD1;
-    public Transform thunderCD2;
-    public TextMeshProUGUI thunderCDText1;
-    public TextMeshProUGUI thunderCDText2;
+    // [Header("Thunder")]
+    // public Transform thunderCD1;
+    // public Transform thunderCD2;
+    // public TextMeshProUGUI thunderCDText1;
+    // public TextMeshProUGUI thunderCDText2;
 
-    [Header("Burn")]
-    public Transform burnCD1;
-    public Transform burnCD2;
-    public TextMeshProUGUI burnCDText1;
-    public TextMeshProUGUI burnCDText2;
+    // [Header("Burn")]
+    // public Transform burnCD1;
+    // public Transform burnCD2;
+    // public TextMeshProUGUI burnCDText1;
+    // public TextMeshProUGUI burnCDText2;
 
-    [Header("Freeze")]
-    public Transform freezeCD1;
-    public Transform freezeCD2;
-    public TextMeshProUGUI freezeCDText1;
-    public TextMeshProUGUI freezeCDText2;
+    // [Header("Freeze")]
+    // public Transform freezeCD1;
+    // public Transform freezeCD2;
+    // public TextMeshProUGUI freezeCDText1;
+    // public TextMeshProUGUI freezeCDText2;
 
     // runtime coroutine handles to avoid duplicate countdowns
     private Coroutine healCoroutine;
-    private Coroutine thunderCoroutine;
-    private Coroutine burnCoroutine;
-    private Coroutine freezeCoroutine;
+    // private Coroutine thunderCoroutine;
+    // private Coroutine burnCoroutine;
+    // private Coroutine freezeCoroutine;
 
     public override void OnNetworkSpawn()
     {
@@ -53,16 +53,16 @@ public class AbilitiesUI : NetworkBehaviour
         healCDText2.text = abilities.healAbilityCooldown.ToString();
 
         //thunder stuff
-        thunderCDText1.text = abilities.thunderAbilityCooldown.ToString();
-        thunderCDText2.text = abilities.thunderAbilityCooldown.ToString();
+        // thunderCDText1.text = abilities.thunderAbilityCooldown.ToString();
+        // thunderCDText2.text = abilities.thunderAbilityCooldown.ToString();
 
-        //burn stuff
-        burnCDText1.text = abilities.burnAbilityCooldown.ToString();
-        burnCDText2.text = abilities.burnAbilityCooldown.ToString();
+        // //burn stuff
+        // burnCDText1.text = abilities.burnAbilityCooldown.ToString();
+        // burnCDText2.text = abilities.burnAbilityCooldown.ToString();
 
-        //freeze stuff
-        freezeCDText1.text = abilities.freezeAbilityCooldown.ToString();
-        freezeCDText2.text = abilities.freezeAbilityCooldown.ToString();
+        // //freeze stuff
+        // freezeCDText1.text = abilities.freezeAbilityCooldown.ToString();
+        // freezeCDText2.text = abilities.freezeAbilityCooldown.ToString();
 
     }
 
@@ -187,56 +187,56 @@ public class AbilitiesUI : NetworkBehaviour
         }
     }
 
-    public void ThunDis()
-    {
-        if (!IsOwner || abilities == null || player == null) return;
+    // public void ThunDis()
+    // {
+    //     if (!IsOwner || abilities == null || player == null) return;
 
-        float duration = abilities.thunderAbilityCooldown;
-        if (player.isP1)
-        {
-            if (thunderCoroutine != null) StopCoroutine(thunderCoroutine);
-            thunderCoroutine = StartCoroutine(CountdownCD(thunderCD1, thunderCDText1, duration));
-        }
-        else if (player.isP2)
-        {
-            if (thunderCoroutine != null) StopCoroutine(thunderCoroutine);
-            thunderCoroutine = StartCoroutine(CountdownCD(thunderCD2, thunderCDText2, duration));
-        }
-    }
+    //     float duration = abilities.thunderAbilityCooldown;
+    //     if (player.isP1)
+    //     {
+    //         if (thunderCoroutine != null) StopCoroutine(thunderCoroutine);
+    //         thunderCoroutine = StartCoroutine(CountdownCD(thunderCD1, thunderCDText1, duration));
+    //     }
+    //     else if (player.isP2)
+    //     {
+    //         if (thunderCoroutine != null) StopCoroutine(thunderCoroutine);
+    //         thunderCoroutine = StartCoroutine(CountdownCD(thunderCD2, thunderCDText2, duration));
+    //     }
+    // }
 
-    public void BurnDis()
-    {
-        if (!IsOwner || abilities == null || player == null) return;
+    // public void BurnDis()
+    // {
+    //     if (!IsOwner || abilities == null || player == null) return;
 
-        float duration = abilities.burnAbilityCooldown;
-        if (player.isP1)
-        {
-            if (burnCoroutine != null) StopCoroutine(burnCoroutine);
-            burnCoroutine = StartCoroutine(CountdownCD(burnCD1, burnCDText1, duration));
-        }
-        else if (player.isP2)
-        {
-            if (burnCoroutine != null) StopCoroutine(burnCoroutine);
-            burnCoroutine = StartCoroutine(CountdownCD(burnCD2, burnCDText2, duration));
-        }
-    }
+    //     float duration = abilities.burnAbilityCooldown;
+    //     if (player.isP1)
+    //     {
+    //         if (burnCoroutine != null) StopCoroutine(burnCoroutine);
+    //         burnCoroutine = StartCoroutine(CountdownCD(burnCD1, burnCDText1, duration));
+    //     }
+    //     else if (player.isP2)
+    //     {
+    //         if (burnCoroutine != null) StopCoroutine(burnCoroutine);
+    //         burnCoroutine = StartCoroutine(CountdownCD(burnCD2, burnCDText2, duration));
+    //     }
+    // }
 
-    public void FreezeDis()
-    {
-        if (!IsOwner || abilities == null || player == null) return;
+    // public void FreezeDis()
+    // {
+    //     if (!IsOwner || abilities == null || player == null) return;
 
-        float duration = abilities.freezeAbilityCooldown;
-        if (player.isP1)
-        {
-            if (freezeCoroutine != null) StopCoroutine(freezeCoroutine);
-            freezeCoroutine = StartCoroutine(CountdownCD(freezeCD1, freezeCDText1, duration));
-        }
-        else if (player.isP2)
-        {
-            if (freezeCoroutine != null) StopCoroutine(freezeCoroutine);
-            freezeCoroutine = StartCoroutine(CountdownCD(freezeCD2, freezeCDText2, duration));
-        }
-    }
+    //     float duration = abilities.freezeAbilityCooldown;
+    //     if (player.isP1)
+    //     {
+    //         if (freezeCoroutine != null) StopCoroutine(freezeCoroutine);
+    //         freezeCoroutine = StartCoroutine(CountdownCD(freezeCD1, freezeCDText1, duration));
+    //     }
+    //     else if (player.isP2)
+    //     {
+    //         if (freezeCoroutine != null) StopCoroutine(freezeCoroutine);
+    //         freezeCoroutine = StartCoroutine(CountdownCD(freezeCD2, freezeCDText2, duration));
+        //}
+    //}
 
     // Generic countdown coroutine: shows the CD object, updates text each frame, hides when <= 0
     private System.Collections.IEnumerator CountdownCD(Transform cdTransform, TextMeshProUGUI cdText, float duration)

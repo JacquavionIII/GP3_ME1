@@ -134,43 +134,67 @@ public class Player : NetworkBehaviour
         } //You better work you whore
 
         //To assign player tags and shit, im starting to get fucking annyed with this bs in the fucking background
-        if (playerCount % 2 == 0)
-        {
-            gameObject.tag = "Player1";
-            isP1 = true;
-            isP2 = false;
-        }
-        else
-        {
-            gameObject.tag = "Player2";
-            isP1 = false;
-            isP2 = true;
-        }
-        playerCount++;
-        playerNumber = playerCount;
+        // if (playerCount % 2 == 0) //My original stuff for single player
+        // {
+        //     gameObject.tag = "Player1";
+        //     isP1 = true;
+        //     isP2 = false;
+        // }
+        // else
+        // {
+        //     gameObject.tag = "Player2";
+        //     isP1 = false;
+        //     isP2 = true;
+        // }
+        // playerCount++;
+        // playerNumber = playerCount;
 
-        if (playerCamera != null & !isLocalPlayer)
-        {
-            playerCamera.enabled = false;
-        }
+        // if (playerCamera != null & !isLocalPlayer)
+        // {
+        //     playerCamera.enabled = false;
+        // }
 
-        if (IsServer && IsClient)
-        {
-            gameObject.tag = "Player1";
-            isP1 = true;
-            isP2 = false;
-        }
-        else if (!IsServer && IsClient)
-        {
-            gameObject.tag = "Player2";
-            isP1 = false;
-            isP2 = true;
-        }
+        // if (IsServer && IsClient)
+        // {
+        //     gameObject.tag = "Player1";
+        //     isP1 = true;
+        //     isP2 = false;
+        // }
+        // else if (!IsServer && IsClient)
+        // {
+        //     gameObject.tag = "Player2";
+        //     isP1 = false;
+        //     isP2 = true;
+        // }
 
         // if (isP2 = true && isP1 = false) 
         // {
         //     Display.Activate();
         // } //trying to make the game switch displays whenever the player spawns on the 
+
+        if (IsServer) //My online player numbering logic
+        {
+            // // Server assigns player numbers
+            // if (OwnerClientId == NetworkManager.ServerClientId)
+            // {
+            //     networkPlayerNumber.Value = 1; // This is the host player
+            // }
+            // else
+            // {
+            //     networkPlayerNumber.Value = 2; // This is a client player
+            // }
+
+            // Use a coroutine to ensure all players are properly connected
+            StartCoroutine(AssignPlayerNumberWithDelay());
+        }
+        else
+        {
+            // Client-side: If the number hasn't been set yet, request it from server
+            if (networkPlayerNumber.Value == 0)
+            {
+                Debug.Log("Client requesting player number assignment");
+            }
+        }
 
         // Initialize health
         currentHealth = maxHealth;
@@ -183,6 +207,33 @@ public class Player : NetworkBehaviour
         jumpAction = playerInput.actions["Jump"];
         attackAction = playerInput.actions["Attack"];
         blockAction = playerInput.actions["Block"];
+    }
+
+    private System.Collections.IEnumerator AssignPlayerNumberWithDelay()
+    {
+        // Wait a frame to ensure all players are properly connected
+        yield return new WaitForSeconds(0.1f);
+    
+        // Get all player objects
+        var players = FindObjectsOfType<Player>();
+        Debug.Log($"Server found {players.Length} players");
+    
+        foreach (var player in players)
+        {
+            if (player.networkPlayerNumber.Value == 0) // Only assign if not already assigned
+            {
+                if (player.OwnerClientId == NetworkManager.ServerClientId)
+                {
+                    player.networkPlayerNumber.Value = 1;
+                    Debug.Log($"Assigned Player1 to host (ClientId: {player.OwnerClientId})");
+                }
+                else
+                {
+                    player.networkPlayerNumber.Value = 2;
+                    Debug.Log($"Assigned Player2 to client (ClientId: {player.OwnerClientId})");
+                }
+            }
+        }
     }
 
     void Awake()
@@ -272,12 +323,11 @@ public class Player : NetworkBehaviour
         if (context.performed)
         {
             dmgBlock = true;
-            anim.SetBool("isBlocking", true);
+            anim.SetTrigger("isBlocking");
         }
         else if (context.canceled)
         {
             dmgBlock = false;
-            anim.SetBool("isBlocking", false);
         }
     }
 
@@ -322,11 +372,23 @@ public class Player : NetworkBehaviour
         // Set tag for this object on all instances (this runs on everyone via the network change)
         gameObject.tag = isP1 ? "Player1" : "Player2";
 
-        // // Optionally enable/disable UI per player here (owner-specific UI should check IsOwner)
-        // if (IsOwner)
-        // {
-        //     // example: enable local camera already handled elsewhere, but you can toggle displays here
-        // }
+        // Handle death screen visibility based on player number
+        if (deathScreen1 != null && deathScreen2 != null)
+        {
+            if (IsOwner) // Only modify UI for local player
+            {
+                if (isP1)
+                {
+                    deathScreen1.gameObject.SetActive(death);
+                    deathScreen2.gameObject.SetActive(false);
+                }
+                else if (isP2)
+                {
+                    deathScreen1.gameObject.SetActive(false);
+                    deathScreen2.gameObject.SetActive(death);
+                }
+            }
+        }
     }
 
     private void HandleComboAttack()
@@ -597,13 +659,16 @@ public class Player : NetworkBehaviour
         // Notify about health change
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
-        if (isP1 == true && death == false)
+        if (IsOwner)
         {
-            deathScreen1.gameObject.SetActive(false);
-        }
-        else if (isP2 == true && death == false)
-        {
-            deathScreen2.gameObject.SetActive(false);
+            if (isP1 && deathScreen1 != null)
+            {
+                deathScreen1.gameObject.SetActive(false);
+            }
+            else if (isP2 && deathScreen2 != null)
+            {
+                deathScreen2.gameObject.SetActive(false);
+            }
         }
 
         // Force ground check update

@@ -111,14 +111,14 @@ public class Abilities : NetworkBehaviour
 
     public void AbilitiesUsable()
     {
-        if (thunderAbilityCount <= 0)
-        {
-            thunderDone = true;
-            if (thunderDone)
-            {
-                if (thunderAction != null) { if (enabled) thunderAction.Enable(); else thunderAction.Disable(); }
-            }
-        }
+        // if (thunderAbilityCount <= 0)
+        // {
+        //     thunderDone = true;
+        //     if (thunderDone)
+        //     {
+        //         if (thunderAction != null) { if (enabled) thunderAction.Enable(); else thunderAction.Disable(); }
+        //     }
+        // }
 
         if (healAbilityCount <= 0)
         {
@@ -129,39 +129,39 @@ public class Abilities : NetworkBehaviour
             }
         }
 
-        if (freezeAbilityCount <= 0)
-        {
-            freezeDone = true;
-            if (freezeDone)
-            {
-                if (freezeAction != null) { if (enabled) freezeAction.Enable(); else freezeAction.Disable(); }
-            }
-        }
+        // if (freezeAbilityCount <= 0)
+        // {
+        //     freezeDone = true;
+        //     if (freezeDone)
+        //     {
+        //         if (freezeAction != null) { if (enabled) freezeAction.Enable(); else freezeAction.Disable(); }
+        //     }
+        // }
         
-        if (burnAbilityCount <= 0)
-        {
-            burnDone = true;
-            if (burnDone)
-            {
-               if (burnAction != null) { if (enabled) burnAction.Enable(); else burnAction.Disable(); }
-            }
-        }
+        // if (burnAbilityCount <= 0)
+        // {
+        //     burnDone = true;
+        //     if (burnDone)
+        //     {
+        //        if (burnAction != null) { if (enabled) burnAction.Enable(); else burnAction.Disable(); }
+        //     }
+        // }
     }
 
     public void OnEnable()
     {
         healAction.performed += OnHeal;
-        thunderAction.performed += OnThunder;
-        burnAction.performed += OnBurn;
-        freezeAction.performed += OnFreeze;
+        // thunderAction.performed += OnThunder;
+        // burnAction.performed += OnBurn;
+        // freezeAction.performed += OnFreeze;
     }
 
     public void OnDisable()
     {
         healAction.performed -= OnHeal;
-        thunderAction.performed -= OnThunder;
-        burnAction.performed -= OnBurn;
-        freezeAction.performed -= OnFreeze;
+        // thunderAction.performed -= OnThunder;
+        // burnAction.performed -= OnBurn;
+        // freezeAction.performed -= OnFreeze;
     }
 
     public void OnHeal(InputAction.CallbackContext context)
@@ -193,142 +193,142 @@ public class Abilities : NetworkBehaviour
         healAblityUsed = false;
     }
 
-    public void OnThunder(InputAction.CallbackContext context)
-    {
-        if (!context.performed || !IsOwner) return;
-        Debug.Log("Thunder ability activated!");
-        ThunderAbility();
-    }
+    // public void OnThunder(InputAction.CallbackContext context)
+    // {
+    //     if (!context.performed || !IsOwner) return;
+    //     Debug.Log("Thunder ability activated!");
+    //     ThunderAbility();
+    // }
 
-    public void ThunderAbility()
-    {
-        if (opponent == null) 
-        {
-            FindOpponent();
-            if (opponent == null) return;
-        }
+    // public void ThunderAbility()
+    // {
+    //     if (opponent == null) 
+    //     {
+    //         FindOpponent();
+    //         if (opponent == null) return;
+    //     }
     
-        thunderAblityUsed = true;
+    //     thunderAblityUsed = true;
     
-        // Show VFX on opponent
-        if (thunderVFX != null)
-        {
-            thunderVFX.position = opponent.transform.position;
-            thunderVFX.gameObject.SetActive(true);
-        }
+    //     // Show VFX on opponent
+    //     if (thunderVFX != null)
+    //     {
+    //         thunderVFX.position = opponent.transform.position;
+    //         thunderVFX.gameObject.SetActive(true);
+    //     }
 
-        // Stun the opponent
-        opponent.DisableControls(thunderStunDuration);
+    //     // Stun the opponent
+    //     opponent.DisableControls(thunderStunDuration);
     
-        thunderAbilityCount--;
-        Invoke(nameof(DisableThunderVFX), thunderStunDuration);
-    }
+    //     thunderAbilityCount--;
+    //     Invoke(nameof(DisableThunderVFX), thunderStunDuration);
+    // }
 
-    private void DisableThunderVFX()
-    {
-        if (thunderVFX != null)
-        {
-            thunderVFX.gameObject.SetActive(false);
-        }
-        thunderAblityUsed = false;
-    }
+    // private void DisableThunderVFX()
+    // {
+    //     if (thunderVFX != null)
+    //     {
+    //         thunderVFX.gameObject.SetActive(false);
+    //     }
+    //     thunderAblityUsed = false;
+    // }
 
-    public void OnBurn(InputAction.CallbackContext context)
-    {
-        if (!context.performed || !IsOwner) return;
-        Debug.Log("Burn ability activated!");
-        BurnAbility();
-    }
+    // public void OnBurn(InputAction.CallbackContext context)
+    // {
+    //     if (!context.performed || !IsOwner) return;
+    //     Debug.Log("Burn ability activated!");
+    //     BurnAbility();
+    // }
 
-    public void BurnAbility()
-    {
-        // I want to decrease the enemy's health over time
+    // public void BurnAbility()
+    // {
+    //     // I want to decrease the enemy's health over time
 
-        if (opponent == null)
-        {
-            FindOpponent();
-            if (opponent == null) return;
-        }
+    //     if (opponent == null)
+    //     {
+    //         FindOpponent();
+    //         if (opponent == null) return;
+    //     }
         
-        if (burnAbilityCount <= 0 || burnAblityUsed) return;
-        burnAblityUsed = true;
-        if (burnCoroutine != null)
-        {
-            StopCoroutine(burnCoroutine);
-        }
-        burnCoroutine = StartCoroutine(BurnCoroutine(burnDuration));
+    //     if (burnAbilityCount <= 0 || burnAblityUsed) return;
+    //     burnAblityUsed = true;
+    //     if (burnCoroutine != null)
+    //     {
+    //         StopCoroutine(burnCoroutine);
+    //     }
+    //     burnCoroutine = StartCoroutine(BurnCoroutine(burnDuration));
 
-        if (burnVFX != null)
-        {
-            burnVFX.position = opponent.transform.position;
-            burnVFX.gameObject.SetActive(true);
-        }
+    //     if (burnVFX != null)
+    //     {
+    //         burnVFX.position = opponent.transform.position;
+    //         burnVFX.gameObject.SetActive(true);
+    //     }
         
-        burnAbilityCount--;
+    //     burnAbilityCount--;
         
-    }
+    // }
 
-    private IEnumerator BurnCoroutine(float duration)
-    {
-        float elapsed = 0f;
-        while (elapsed < duration)
-        {
-            // apply damage once per second
-            opponent.TakeDamage(burnDamagePerSecond);
-            yield return new WaitForSeconds(burnDuration);
-            elapsed += 1f;
-        }
+    // private IEnumerator BurnCoroutine(float duration)
+    // {
+    //     float elapsed = 0f;
+    //     while (elapsed < duration)
+    //     {
+    //         // apply damage once per second
+    //         opponent.TakeDamage(burnDamagePerSecond);
+    //         yield return new WaitForSeconds(burnDuration);
+    //         elapsed += 1f;
+    //     }
 
-        // done
-        Invoke(nameof(DisableBurnVFX), burnDuration);
-        burnCoroutine = null;
-    }
+    //     // done
+    //     Invoke(nameof(DisableBurnVFX), burnDuration);
+    //     burnCoroutine = null;
+    // }
 
-    public void DisableBurnVFX()
-    {
-        if (burnVFX != null)
-        {
-            burnVFX.gameObject.SetActive(false);
-        }
-        burnAblityUsed = false;
-    }
+    // public void DisableBurnVFX()
+    // {
+    //     if (burnVFX != null)
+    //     {
+    //         burnVFX.gameObject.SetActive(false);
+    //     }
+    //     burnAblityUsed = false;
+    // }
 
-    public void OnFreeze(InputAction.CallbackContext context)
-    {
-        if (!context.performed || !IsOwner) return;
-        Debug.Log("Freeze ability activated!");
-        FreezeAbility();
-    }
+    // public void OnFreeze(InputAction.CallbackContext context)
+    // {
+    //     if (!context.performed || !IsOwner) return;
+    //     Debug.Log("Freeze ability activated!");
+    //     FreezeAbility();
+    // }
 
-    public void FreezeAbility()
-    {
-        // I want to completely stop the enemy from moving for a few seconds and then and then damage them a bit.
-        if (opponent == null)
-        {
-            FindOpponent();
-            if (opponent == null) return;
-        }
+    // public void FreezeAbility()
+    // {
+    //     // I want to completely stop the enemy from moving for a few seconds and then and then damage them a bit.
+    //     if (opponent == null)
+    //     {
+    //         FindOpponent();
+    //         if (opponent == null) return;
+    //     }
         
-        opponent.DisableControls(freezeDuration);
-        opponent.TakeDamage(10);
+    //     opponent.DisableControls(freezeDuration);
+    //     opponent.TakeDamage(10);
 
-        if (freezeVFX != null)
-        {
-            freezeVFX.position = opponent.transform.position;
-            freezeVFX.gameObject.SetActive(true);
-        }
+    //     if (freezeVFX != null)
+    //     {
+    //         freezeVFX.position = opponent.transform.position;
+    //         freezeVFX.gameObject.SetActive(true);
+    //     }
     
-        freezeVFX.gameObject.SetActive(true);
-        Invoke(nameof(DisableFreezeVFX), freezeDuration);
-        freezeAbilityCount--;
-    }
+    //     freezeVFX.gameObject.SetActive(true);
+    //     Invoke(nameof(DisableFreezeVFX), freezeDuration);
+    //     freezeAbilityCount--;
+    // }
 
-    private void DisableFreezeVFX()
-    {
-        if (freezeVFX != null)
-        {
-            freezeVFX.gameObject.SetActive(false);
-        }
-        freezeAblityUsed = false;
-    }
+    // private void DisableFreezeVFX()
+    // {
+    //     if (freezeVFX != null)
+    //     {
+    //         freezeVFX.gameObject.SetActive(false);
+    //     }
+    //     freezeAblityUsed = false;
+    // }
 }
